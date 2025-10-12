@@ -1,4 +1,11 @@
 /** @type {import('next').NextConfig} */
+const imageHosts = (process.env.NEXT_PUBLIC_IMAGE_HOSTS || '')
+  .split(',')
+  .map((host) => host.trim())
+  .filter(Boolean);
+
+const defaultImageHosts = imageHosts.length > 0 ? imageHosts : ['api.kutumba.ru'];
+
 const nextConfig = {
   output: 'standalone',
   async rewrites() {
@@ -14,14 +21,12 @@ const nextConfig = {
     ];
   },
   images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'blow.igoshev.de',
-        port: '',
-        pathname: '**',
-      },
-    ],
+    remotePatterns: defaultImageHosts.map((hostname) => ({
+      protocol: process.env.NEXT_PUBLIC_IMAGE_PROTOCOL || 'https',
+      hostname,
+      port: '',
+      pathname: '**',
+    })),
   },
 };
 
