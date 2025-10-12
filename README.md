@@ -106,7 +106,7 @@ docker compose ps
 
 * `frontend` – Next.js на порту 3000 внутри сети.
 * `admin` – статическая сборка админки (Nginx) на порту 80 внутри сети.
-* `backend` – Nest.js API на порту 4000.
+* `backend` – Nest.js API на порту 4000 (доступен с хоста по адресу http://localhost:4000 после проброса порта).
 * `mongo` – MongoDB 7 с томом `mongo_data`.
 * `nginx` – обратный прокси (порты 80/443), подключён к `frontend`, `admin`, `backend`.
 * `certbot` – вспомогательный контейнер для выдачи и продления сертификатов.
