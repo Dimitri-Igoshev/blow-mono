@@ -20,6 +20,8 @@ services:
       - ./deploy/env/backend.env
     environment:
       - NODE_ENV=production
+    ports:
+      - "4000:4000"
     volumes:
       - uploads_data:/app/uploads
     networks:
