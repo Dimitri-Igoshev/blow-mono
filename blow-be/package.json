@@ -54,6 +54,7 @@
     "sharp": "^0.34.1",
     "socket.io": "^4.8.1",
     "string-width": "^4.2.3",
+    "universalify": "^2.0.1",
     "wrap-ansi": "^7.0.0"
   },
   "devDependencies": {
