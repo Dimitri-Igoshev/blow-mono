@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+@config "../../tailwind.config.ts";
+
+:root {
+  --color-primary: #E31E24;  /* цвет по умолчанию */
+  --color-secondary: #2B2A29;
+}
+

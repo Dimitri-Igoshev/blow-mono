@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --vh: 1vh;
+}
+
+* {
+  outline: none !important;
+}
+
+/*Не закрашивать поля*/
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  border: none;
+  -webkit-text-fill-color: #000;
+  -webkit-box-shadow: 0 0 0 1000px transparent inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Для WebKit-браузеров */
+::-webkit-scrollbar {
+  width: 8px; /* или height: 8px для горизонтального */
+  background-color: rgba(100, 100, 100, 0.1); /* Прозрачный фон */
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(100, 100, 100, 0.1); /* Трек — прозрачный */
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(100, 100, 100, 0.5); /* Цвет "ползунка" с прозрачностью */
+  border-radius: 4px;
+}
+
+/*Баг айфона*/
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+	select:focus,
+	textarea:focus,
+	input:focus {
+		font-size: 16px;
+	}
+}
+
+.loading {
+  display:inline-block;
+  clip-path: inset(0 15px 0 0);
+  animation: l 1s steps(4) infinite;
+}
+
+@keyframes l {
+  to {
+    clip-path: inset(0 -3px 0 0)
+  }
+}
+
+/* Скрываем scrollbar для Chrome, Safari и Opera */
+.hide-scroll::-webkit-scrollbar {
+  display: none;
+}
+ 
+/* Скрываем scrollbar для IE, Edge и Firefox */
+.hide-scroll {
+  -ms-overflow-style: none;  /* IE и Edge */
+  scrollbar-width: none;  /* Firefox */
+}
