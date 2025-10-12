@@ -147,9 +147,22 @@ export default function AccountServices() {
 		// 	order_id: uuidv4().toString(),
 		// };
 
-		const paymentData = {
-			PayerId: me._id,
-			TerminalKey: config.TBANK_TERMINAL_KEY,
+                const terminalKey = config.TBANK_TERMINAL_KEY;
+                const password = config.TBANK_PASSWORD;
+
+                if (!terminalKey || !password) {
+                        console.error("Отсутствуют данные для формирования платежа");
+
+                        if (win) {
+                                win.close();
+                        }
+
+                        return;
+                }
+
+                const paymentData = {
+                        PayerId: me._id,
+                        TerminalKey: terminalKey,
 			Amount: price * 100,
 			OrderId: uuidv4().toString(),
 			Description: "Пополнение счета",
@@ -173,7 +186,7 @@ export default function AccountServices() {
 
                 const token = generateSignature({
                         ...paymentData,
-                        Password: config.TBANK_PASSWORD ?? "",
+                        Password: password,
                 });
 
 		try {
