@@ -1,25 +1,29 @@
+const getEnv = (key: string, fallback?: string) => {
+  const value = process.env[key];
+  if (value === undefined || value === "") {
+    return fallback;
+  }
+  return value;
+};
+
+const apiUrl =
+  getEnv("NEXT_PUBLIC_API_URL") ||
+  getEnv("NEXT_PUBLIC_BACKEND_URL") ||
+  "http://localhost:4000/api";
+
+const mediaUrl =
+  getEnv("NEXT_PUBLIC_MEDIA_URL") ||
+  new URL("..", apiUrl.endsWith("/") ? apiUrl : `${apiUrl}/`).toString().replace(/\/$/, "");
+
 export const config = {
-	// API_URL: "http://localhost:4000/api",
-	// MEDIA_URL: "http://localhost:4000",
-
-	// API_URL: "https://blow.ru/api",
-	// MEDIA_URL: "https://blow.ru",
-
-	// API_URL: "https://blow.igoshev.de/api",
-	// MEDIA_URL: "https://blow.igoshev.de",
-
-	API_URL: "https://api.kutumba.by/api",
-	MEDIA_URL: "https://api.kutumba.by",
-
-	NEXT_PUBLIC_APP_URL: "https://kutumba.by",
-	NEXT_PUBLIC_API_URL: "https://api.kutumba.by/api",
-
-	// NEXT_PUBLIC_YOOMONEY_CLIENT_ID: "707B433F3941122508C946C61E10AF75C678151A29A61B8310DDE4C9C5D6B674",
-	NEXT_PUBLIC_YOOMONEY_CLIENT_ID: "B39487F6318A0C005A2273AC11CE27B9B224AA038080EA02BA4A4BB634D136DB",
-	NEXT_YOOMONEY_CLIENT_SECRET: "1A9BB797E5278C5950FC2FBD5967674F1BCEA9C321F25F3824EA763697049B6C764AFEE0259C77D631AFD69522393A94ABB23FC1811F274675A5B3963C8FF57B",
-	YOOMONEY_REDIRECT_URI: "https://blow.ru/api/notification",
-	YOOMONEY_NOTIFICATION_SECRET: "okhVoEzBdxQlioL4+QVNu3bR",
-
-	TBANK_TERMINAL_KEY: "1752254920585",
-	TBANK_PASSWORD: "k%mOHw64FH5Ex&vF",
+  API_URL: apiUrl,
+  MEDIA_URL: mediaUrl,
+  NEXT_PUBLIC_APP_URL: getEnv("NEXT_PUBLIC_APP_URL", "http://localhost:3000"),
+  NEXT_PUBLIC_API_URL: apiUrl,
+  NEXT_PUBLIC_YOOMONEY_CLIENT_ID: getEnv("NEXT_PUBLIC_YOOMONEY_CLIENT_ID"),
+  NEXT_YOOMONEY_CLIENT_SECRET: getEnv("NEXT_YOOMONEY_CLIENT_SECRET"),
+  YOOMONEY_REDIRECT_URI: getEnv("YOOMONEY_REDIRECT_URI"),
+  YOOMONEY_NOTIFICATION_SECRET: getEnv("YOOMONEY_NOTIFICATION_SECRET"),
+  TBANK_TERMINAL_KEY: getEnv("TBANK_TERMINAL_KEY"),
+  TBANK_PASSWORD: getEnv("TBANK_PASSWORD"),
 };
