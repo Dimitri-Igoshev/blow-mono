@@ -32,6 +32,7 @@ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o 
 printf "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 sudo apt update
 sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+sudo apt install -y git
 sudo usermod -aG docker $USER
 newgrp docker
 ```
@@ -44,6 +45,21 @@ sudo ufw allow 80/tcp
 sudo ufw allow 443/tcp
 sudo ufw enable
 ```
+
+## Клонирование репозитория
+
+На сервере удобнее всего держать монорепозиторий в каталоге `/opt/blow-mono` (права
+на него будут у root и группы `docker`). Выполните:
+
+```bash
+sudo mkdir -p /opt/blow-mono
+sudo chown $USER:$USER /opt/blow-mono
+cd /opt/blow-mono
+git clone https://github.com/<your-org>/blow-mono.git .
+```
+
+Если репозиторий приватный, предварительно добавьте SSH-ключ на сервер и
+используйте URL вида `git@github.com:<your-org>/blow-mono.git`.
 
 ## Подготовка окружения
 
