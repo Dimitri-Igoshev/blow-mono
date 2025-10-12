@@ -171,10 +171,10 @@ export default function AccountServices() {
 			},
 		};
 
-		const token = generateSignature({
-			...paymentData,
-			Password: config.TBANK_PASSWORD,
-		});
+                const token = generateSignature({
+                        ...paymentData,
+                        Password: config.TBANK_PASSWORD ?? "",
+                });
 
 		try {
 			const response = await fetch("/api/payment", {
