@@ -103,10 +103,9 @@ const createRequestInit = async (req: NextRequest) => {
   return init;
 };
 
-const proxy = async (
-  req: NextRequest,
-  { params }: { params: { path?: string[] } },
-) => {
+type ProxyRouteContext = { params: { path: string | string[] } };
+
+const proxy = async (req: NextRequest, { params }: ProxyRouteContext) => {
   if (!API_BASE) {
     return NextResponse.json(
       { message: "API proxy target is not configured" },
@@ -114,7 +113,11 @@ const proxy = async (
     );
   }
 
-  const pathSegments = params.path ?? [];
+  const pathSegments = Array.isArray(params.path)
+    ? params.path
+    : params.path
+      ? [params.path]
+      : [];
   const targetUrl = buildTargetUrl(req, pathSegments);
 
   try {
