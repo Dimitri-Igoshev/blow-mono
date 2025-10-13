@@ -188,12 +188,22 @@ const getBrowserApiUrl = (
       if (parsed.origin !== currentOrigin) {
         try {
           const current = new URL(currentOrigin);
-          const parsedBase = getBaseDomain(parsed.hostname);
-          const currentBase = getBaseDomain(current.hostname);
-          const isLocalHost = /^(localhost|127\.0\.0\.1)$/i.test(current.hostname);
+          const isLocalHost = /^(localhost|127\.0\.0\.1)$/i.test(parsed.hostname);
 
-          if (!parsedBase || !currentBase || parsedBase !== currentBase || isLocalHost) {
-            return fallbackUrl;
+          if (parsed.hostname !== current.hostname) {
+            if (!isLocalHost) {
+              return fallbackUrl;
+            }
+
+            return ensured;
+          }
+
+          if (parsed.port && parsed.port !== current.port) {
+            if (!isLocalHost) {
+              return fallbackUrl;
+            }
+
+            return ensured;
           }
         } catch {
           return fallbackUrl;
