@@ -6,14 +6,30 @@ const getEnv = (key: string, fallback?: string) => {
   return value;
 };
 
-const apiUrl =
+const ensureHttps = (rawUrl: string) => {
+  try {
+    const url = new URL(rawUrl);
+    if (url.protocol === "http:" && url.hostname.endsWith("kutumba.ru")) {
+      url.protocol = "https:";
+      return url.toString();
+    }
+  } catch {
+    // Ignore invalid URLs and return the original value.
+  }
+  return rawUrl;
+};
+
+const rawApiUrl =
   getEnv("NEXT_PUBLIC_API_URL") ||
   getEnv("NEXT_PUBLIC_BACKEND_URL") ||
   "https://api.kutumba.ru/api";
 
-const mediaUrl =
+const apiUrl = ensureHttps(rawApiUrl);
+
+const mediaUrl = ensureHttps(
   getEnv("NEXT_PUBLIC_MEDIA_URL") ||
-  new URL("..", apiUrl.endsWith("/") ? apiUrl : `${apiUrl}/`).toString().replace(/\/$/, "");
+    new URL("..", apiUrl.endsWith("/") ? apiUrl : `${apiUrl}/`).toString().replace(/\/$/, "")
+);
 
 export const config = {
   API_URL: apiUrl,
