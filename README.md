@@ -200,7 +200,7 @@ docker compose up -d
 export LOCAL_MONGO_URI='mongodb://root:example@127.0.0.1:27017/blow?authSource=admin'
 export MONGO_DB_NAME='blow'
 
-docker exec -it f95d26509eaa bash -lc 'echo "Pinging local mongo..."; mongosh "mongodb://root:example@mongo:27017/blow?authSource=admin" --eval "db.runCommand({ping:1})"; echo "Running migrate"; npm run db:sync'
+docker exec -it 782c6cb73cb3 bash -lc 'echo "Pinging local mongo..."; mongosh "mongodb://root:example@mongo:27017/blow?authSource=admin" --eval "db.runCommand({ping:1})"; echo "Running migrate"; npm run db:sync'
 
 
 3. Выполните скрипт из каталога бэкенда:
