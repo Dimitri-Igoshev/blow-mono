@@ -73,6 +73,44 @@ async function createRequestInit(req: Request): Promise<RequestInit> {
   return init;
 }
 
+const RETRYABLE_STATUS = new Set([408, 425, 429, 500, 502, 503, 504]);
+const MAX_RETRY_ATTEMPTS = 3;
+const BASE_RETRY_DELAY_MS = 150;
+
+const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+async function fetchWithRetry(target: URL, init: RequestInit) {
+  let attempt = 0;
+  let lastError: unknown;
+
+  while (attempt < MAX_RETRY_ATTEMPTS) {
+    try {
+      const response = await fetch(target, init);
+
+      if (!RETRYABLE_STATUS.has(response.status) || attempt === MAX_RETRY_ATTEMPTS - 1) {
+        return response;
+      }
+
+      response.body?.cancel();
+      await wait(BASE_RETRY_DELAY_MS * 2 ** attempt);
+    } catch (error) {
+      lastError = error;
+
+      if (attempt === MAX_RETRY_ATTEMPTS - 1) {
+        throw error;
+      }
+
+      await wait(BASE_RETRY_DELAY_MS * 2 ** attempt);
+    }
+
+    attempt += 1;
+  }
+
+  throw lastError instanceof Error
+    ? lastError
+    : new Error("Failed to reach upstream service");
+}
+
 async function handle(request: Request, ctx: any) {
   if (!API_BASE) {
     return Response.json(
@@ -85,7 +123,8 @@ async function handle(request: Request, ctx: any) {
   const path = Array.isArray(raw) ? raw : raw ? [raw] : []; // [[...path]]: может не быть
 
   try {
-    const upstream = await fetch(buildTargetUrl(request, path), await createRequestInit(request));
+    const targetUrl = buildTargetUrl(request, path);
+    const upstream = await fetchWithRetry(targetUrl, await createRequestInit(request));
     const headers = filterResponseHeaders(upstream.headers);
     appendSetCookieHeaders(headers, upstream);
 
