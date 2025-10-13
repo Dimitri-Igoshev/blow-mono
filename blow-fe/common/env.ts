@@ -24,13 +24,6 @@ const ensureHttps = (rawUrl: string) => {
   try {
     const url = new URL(rawUrl);
 
-    if (
-      url.hostname === "kutumba.ru" &&
-      (url.pathname === "/api" || url.pathname.startsWith("/api/"))
-    ) {
-      url.hostname = "api.kutumba.ru";
-    }
-
     if (url.protocol === "http:" && url.hostname.endsWith("kutumba.ru")) {
       url.protocol = "https:";
 
@@ -78,12 +71,6 @@ const ensureApiUrl = (rawUrl: string) => {
 
   try {
     const url = new URL(secured);
-    const hostname = url.hostname.toLowerCase();
-
-    if (hostname === "kutumba.ru" || hostname === "www.kutumba.ru") {
-      url.hostname = "api.kutumba.ru";
-      return url.toString();
-    }
 
     return url.toString();
   } catch {
@@ -120,7 +107,7 @@ const pickServerApiUrl = () => {
     return ensureApiUrl(publicApiUrl);
   }
 
-  return ensureApiUrl("https://api.kutumba.ru/api");
+  return ensureApiUrl("https://kutumba.ru/api");
 };
 
 const pickAppUrl = () => {
