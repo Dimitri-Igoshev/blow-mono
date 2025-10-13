@@ -45,6 +45,26 @@ const ensureHttps = (rawUrl: string) => {
   return rawUrl;
 };
 
+const ensureApiUrl = (rawUrl: string) => {
+  const secured = ensureHttps(rawUrl);
+
+  try {
+    const url = new URL(secured);
+    const hostname = url.hostname.toLowerCase();
+
+    if (hostname === "kutumba.ru" || hostname === "www.kutumba.ru") {
+      url.hostname = "api.kutumba.ru";
+      return url.toString();
+    }
+
+    return url.toString();
+  } catch {
+    // Ignore invalid URLs and return the original value.
+  }
+
+  return secured;
+};
+
 const isRelativeUrl = (value: string) => /^(\.\/|\.\.\/|\/)/.test(value);
 
 const normalizeProxyPath = (value: string) => {
@@ -63,16 +83,16 @@ const pickServerApiUrl = () => {
   const backendUrl = pickEnv("NEXT_PUBLIC_BACKEND_URL", "API_INTERNAL_BASE");
 
   if (backendUrl && !isRelativeUrl(backendUrl)) {
-    return ensureHttps(backendUrl);
+    return ensureApiUrl(backendUrl);
   }
 
   const publicApiUrl = pickEnv("NEXT_PUBLIC_API_URL", "NEXT_PUBLIC_API_BASE");
 
   if (publicApiUrl && !isRelativeUrl(publicApiUrl)) {
-    return ensureHttps(publicApiUrl);
+    return ensureApiUrl(publicApiUrl);
   }
 
-  return ensureHttps("https://api.kutumba.ru/api");
+  return ensureApiUrl("https://api.kutumba.ru/api");
 };
 
 const serverApiUrl = pickServerApiUrl();
@@ -110,7 +130,7 @@ const getBrowserApiUrl = () => {
       return proxyPath;
     }
 
-    return ensureHttps(parsed.toString());
+    return ensureApiUrl(parsed.toString());
   } catch {
     return explicitUrl;
   }
