@@ -122,7 +122,7 @@ docker compose ps
 После первого запуска Nginx уже обслуживает HTTP и отдаёт ACME challenge из `/var/www/certbot`. Выполните выдачу сертификата (запросы к портам 80/443 должны доходить до сервера):
 
 ```bash
-docker compose run --rm certbot certbot certonly \
+docker compose run --rm certbot certonly \
   --webroot -w /var/www/certbot \
   -d kutumba.ru -d www.kutumba.ru \
   -d api.kutumba.ru -d admin.kutumba.ru
@@ -140,14 +140,14 @@ docker compose restart nginx
 
 ```bash
 # /etc/cron.d/certbot-renew
-0 4 * * * root cd /opt/blow-mono && docker compose run --rm certbot certbot renew --quiet
+0 4 * * * root cd /opt/blow-mono && docker compose run --rm certbot renew --quiet
 5 4 * * * root cd /opt/blow-mono && docker compose exec nginx nginx -s reload
 ```
 
 Перед добавлением cron-задачи можно выполнить тест:
 
 ```bash
-docker compose run --rm certbot certbot renew --dry-run
+docker compose run --rm certbot renew --dry-run
 ```
 
 ## Обновление приложения
