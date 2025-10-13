@@ -5,42 +5,67 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
-  const corsOrigins = (process.env.CORS_ORIGINS ?? '')
-    .split(',')
-    .map((origin) => origin.trim())
-    .filter(Boolean);
-
-  const defaultCorsOrigins = [
-    'http://localhost:3000',
-    'https://kutumba.ru',
-    'https://www.kutumba.ru',
-    'https://admin.kutumba.ru',
-    'https://api.kutumba.ru',
-  ];
-
-  const origin = corsOrigins.length === 0
-    ? defaultCorsOrigins
-    : corsOrigins.includes('*')
-      ? true
-      : corsOrigins;
-
+  // 🔓 Разрешаем CORS с любого домена (включая credentials)
   app.enableCors({
-    origin,
+    // origin: true — отражает Origin из запроса (не ставит '*'),
+    // что совместимо с credentials: true
+    origin: (origin, callback) => callback(null, true),
     credentials: true,
-    methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
-    allowedHeaders: [
-      'Content-Type',
-      'Authorization',
-      'Accept',
-      'Origin',
-      'X-Requested-With',
-    ],
+    // Остальное можно не указывать — cors выставит дефолт:
+    // methods: ['GET','HEAD','PUT','PATCH','POST','DELETE']
+    // allowedHeaders — возьмутся из preflight-запроса
   });
 
   app.setGlobalPrefix('api');
-
-  app.set('trust proxy', true); // теперь TypeScript не ругается
+  app.set('trust proxy', true);
 
   await app.listen(process.env.PORT ?? 4000);
 }
 bootstrap();
+
+// import { NestFactory } from '@nestjs/core';
+// import { AppModule } from './app.module';
+// import { NestExpressApplication } from '@nestjs/platform-express';
+
+// async function bootstrap() {
+//   const app = await NestFactory.create<NestExpressApplication>(AppModule);
+
+//   const corsOrigins = (process.env.CORS_ORIGINS ?? '')
+//     .split(',')
+//     .map((origin) => origin.trim())
+//     .filter(Boolean);
+
+//   const defaultCorsOrigins = [
+//     'http://localhost:3000',
+//     'https://kutumba.ru',
+//     'https://www.kutumba.ru',
+//     'https://admin.kutumba.ru',
+//     'https://api.kutumba.ru',
+//   ];
+
+//   const origin = corsOrigins.length === 0
+//     ? defaultCorsOrigins
+//     : corsOrigins.includes('*')
+//       ? true
+//       : corsOrigins;
+
+//   app.enableCors({
+//     origin,
+//     credentials: true,
+//     methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
+//     allowedHeaders: [
+//       'Content-Type',
+//       'Authorization',
+//       'Accept',
+//       'Origin',
+//       'X-Requested-With',
+//     ],
+//   });
+
+//   app.setGlobalPrefix('api');
+
+//   app.set('trust proxy', true); // теперь TypeScript не ругается
+
+//   await app.listen(process.env.PORT ?? 4000);
+// }
+// bootstrap();
