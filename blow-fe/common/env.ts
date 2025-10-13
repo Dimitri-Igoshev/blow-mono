@@ -117,7 +117,7 @@ const getBrowserApiUrl = () => {
 };
 
 const apiUrl =
-  typeof window === "undefined" ? serverApiUrl : getBrowserApiUrl();
+  typeof window === "undefined" ? serverApiUrl : 'https://api.kutumba.ru/api';
 
 const mediaUrl = ensureHttps(
   getEnv("NEXT_PUBLIC_MEDIA_URL") ||
