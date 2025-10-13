@@ -4,7 +4,7 @@ import { Image } from "@heroui/image";
 import { useRouter } from "next/navigation";
 
 import { ROUTES } from "@/app/routes";
-import { config } from "@/common/env";
+import { resolveMediaUrl } from "@/common/env";
 import { useGetUserQuery } from "@/redux/services/userApi";
 import { Button } from "@heroui/button";
 import { MdDeleteOutline } from "react-icons/md";
@@ -30,11 +30,11 @@ export const NoteCard = ({ note, onDelete }: any) => {
 					/>
 				}
 				src={
-					user?.photos[0]?.url
-						? `${config.MEDIA_URL}/${user?.photos[0]?.url}`
-						: user?.sex === "male"
-							? "/men.jpg"
-							: "/woman.jpg"
+                                        user?.photos[0]?.url
+                                                ? resolveMediaUrl(user?.photos[0]?.url)
+                                                : user?.sex === "male"
+                                                        ? "/men.jpg"
+                                                        : "/woman.jpg"
 				}
 				onClick={() => router.push(`${ROUTES.ACCOUNT.SEARCH}/${user?._id}`)}
 			/> */}
@@ -45,11 +45,11 @@ export const NoteCard = ({ note, onDelete }: any) => {
 						<img
 							alt=""
 							src={
-								user?.photos[0]?.url
-									? `${config.MEDIA_URL}/${user.photos[0].url}`
-									: user?.sex === "male"
-										? "/men2.png"
-										: "/woman2.png"
+                                        user?.photos[0]?.url
+                                                ? resolveMediaUrl(user.photos[0].url)
+                                                : user?.sex === "male"
+                                                        ? "/men2.png"
+                                                        : "/woman2.png"
 							}
 							className="w-full h-full object-cover object-center"
 						/>

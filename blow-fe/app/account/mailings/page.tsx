@@ -26,7 +26,7 @@ import {
 import { useGetMeQuery, useUpdateUserMutation } from "@/redux/services/userApi";
 import { InfoModal } from "@/components/InfoModal";
 import { ROUTES } from "@/app/routes";
-import { config } from "@/common/env";
+import { resolveMediaUrl } from "@/common/env";
 import { CameraIcon } from "@/common/icons";
 
 const MAILINGS_ID = "6831854519e3572edace86b7";
@@ -168,8 +168,8 @@ export default function AccountMailings() {
 														/>
 													}
 													src={
-														item?.photos[0]?.url
-															? `${config.MEDIA_URL}/${item?.photos[0]?.url}`
+                                                                                                                item?.photos[0]?.url
+                                                                                                                        ? resolveMediaUrl(item?.photos[0]?.url) ?? ""
 															: item?.sex === "male"
 																? "/men.jpg"
 																: "/woman.jpg"
@@ -205,7 +205,7 @@ export default function AccountMailings() {
 										}
 										src={
 											mailing?.owner?.photos[0]?.url
-												? `${config.MEDIA_URL}/${mailing?.owner?.photos[0]?.url}`
+                                                                                            ? resolveMediaUrl(mailing?.owner?.photos[0]?.url) ?? ""
 												: mailing?.owner?.sex === "male"
 													? "/men.jpg"
 													: "/woman.jpg"

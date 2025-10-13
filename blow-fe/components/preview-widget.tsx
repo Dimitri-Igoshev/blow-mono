@@ -5,7 +5,7 @@ import { FC, useEffect, useRef, useState } from "react";
 import { Image } from "@heroui/image";
 import { useRouter } from "next/navigation";
 
-import { config } from "@/common/env";
+import { resolveMediaUrl } from "@/common/env";
 // import { getCityString } from "@/helper/getCityString";
 import { ROUTES } from "@/app/routes";
 import { getActivityString } from "@/helper/getActivityString";
@@ -57,11 +57,11 @@ export const PreviewWidget: FC<PreviewWidgetProps> = ({ item, className, style }
 				className="object-cover"
 				height={width ? width * 1.40 : 0}
 				src={
-					item?.photos?.[0]?.url
-						? `${config.MEDIA_URL}/${item?.photos[0]?.url}`
-						: item?.sex === "male"
-							? "/men2.png"
-							: "/woman2.png"
+                                        item?.photos?.[0]?.url
+                                                ? resolveMediaUrl(item?.photos[0]?.url) ?? ""
+                                                : item?.sex === "male"
+                                                        ? "/men2.png"
+                                                        : "/woman2.png"
 				}
 				width={"100%"}
 			/>

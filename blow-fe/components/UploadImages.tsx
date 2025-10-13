@@ -9,7 +9,7 @@ import { BsFillCameraFill } from "react-icons/bs";
 
 import ImageCroper from "./ImageCroper";
 
-import { config } from "@/common/env";
+import { resolveMediaUrl } from "@/common/env";
 import { IPhoto } from "@/common/interface/photo.interface";
 import { useUpdateUserMutation } from "@/redux/services/userApi";
 
@@ -153,7 +153,7 @@ const UploadImages: FC<UploadImagesProps> = ({
 						className="z-0 relative"
 						height={width ? width * 1.5 : 0}
 						radius="none"
-						src={`${config.MEDIA_URL}/${url}` || ""}
+                                                src={resolveMediaUrl(url) || ""}
 						width={"100%"}
             style={{ objectFit: "cover" }}
 					/>

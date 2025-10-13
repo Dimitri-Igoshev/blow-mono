@@ -12,7 +12,7 @@ import { cn, useDisclosure } from "@heroui/react";
 import { Note } from "./Note";
 
 // import { getCityString } from "@/helper/getCityString";
-import { config } from "@/common/env";
+import { resolveMediaUrl } from "@/common/env";
 import {
 	useCreateNoteMutation,
 	useDeleteNoteMutation,
@@ -157,22 +157,26 @@ const ProfileClient: FC<ProfileViewProps> = ({ user }) => {
 		onOpenChange: onRegistrationRequiredChange,
 	} = useDisclosure();
 
-	const handlePlay = () => {
-		if (!me || me?.status !== "active") {
-			onRegistrationRequired();
-			return;
-		}
+        const handlePlay = () => {
+                if (!me || me?.status !== "active") {
+                        onRegistrationRequired();
+                        return;
+                }
 
-		if (!premium && me?.sex === "male") {
-			onPremiumRequiredVoiceChange();
-			return;
-		}
+                if (!premium && me?.sex === "male") {
+                        onPremiumRequiredVoiceChange();
+                        return;
+                }
 
-		const audio = new Audio(`${config.MEDIA_URL}/${user?.voice}`);
-		audio.play().catch((err) => {
-			console.error("Ошибка воспроизведения:", err);
-		});
-	};
+                const audioUrl = resolveMediaUrl(user?.voice);
+
+                if (!audioUrl) return;
+
+                const audio = new Audio(audioUrl);
+                audio.play().catch((err) => {
+                        console.error("Ошибка воспроизведения:", err);
+                });
+        };
 
 	const {
 		isOpen: isPremiumRequiredVoice,
@@ -247,7 +251,7 @@ const ProfileClient: FC<ProfileViewProps> = ({ user }) => {
 									radius="none"
 									src={
 										currentImage || user?.photos[0]?.url
-											? `${config.MEDIA_URL}/${currentImage || user?.photos[0]?.url}`
+                                                                                    ? resolveMediaUrl(currentImage || user?.photos[0]?.url) ?? ""
 											: user?.sex === "male"
 												? "/men2.png"
 												: "/woman2.png"
@@ -271,7 +275,7 @@ const ProfileClient: FC<ProfileViewProps> = ({ user }) => {
 											radius="none"
 											src={
 												item?.url
-													? `${config.MEDIA_URL}/${item.url}`
+                                                                                                    ? resolveMediaUrl(item.url) ?? ""
 													: user?.sex === "male"
 														? "/men2.png"
 														: "/woman2.png"
@@ -282,7 +286,7 @@ const ProfileClient: FC<ProfileViewProps> = ({ user }) => {
 											alt=""
 											src={
 												item?.photos?.[0]?.url
-													? `${config.MEDIA_URL}/${item.url}`
+                                                                                                    ? resolveMediaUrl(item.url) ?? ""
 													: item?.sex === "male"
 														? "/men2.png"
 														: "/woman2.png"

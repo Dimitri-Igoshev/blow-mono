@@ -1,7 +1,7 @@
 // app/u/[slug]/page.tsx
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
-import { config } from "@/common/env";
+import { config, resolveMediaUrl } from "@/common/env";
 import ProfileClient from "./ProfileClient";
 import {
 	makeProfileTitle,
@@ -10,7 +10,6 @@ import {
 } from "@/lib/seo-profile";
 
 const API_BASE = config.API_URL;
-const MEDIA_BASE = config.MEDIA_URL;
 const SITE = "https://kutumba.ru";
 
 // ---------- helpers ----------
@@ -59,8 +58,8 @@ async function getById(id: string) {
 }
 
 function photoUrl(src?: string) {
-	if (!src) return "";
-	return MEDIA_BASE ? `${MEDIA_BASE}/${src}` : src;
+        if (!src) return "";
+        return resolveMediaUrl(src) ?? src;
 }
 
 function cut(s?: string, n = 160) {

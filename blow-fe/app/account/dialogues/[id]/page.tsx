@@ -23,7 +23,7 @@ import {
 	useUpdateMessageMutation,
 } from "@/redux/services/chatApi";
 import { useGetMeQuery } from "@/redux/services/userApi";
-import { config } from "@/common/env";
+import { resolveMediaUrl } from "@/common/env";
 import { Message } from "@/components/Message";
 import { InfoModal } from "@/components/InfoModal";
 import { canChatDelete, isPremium } from "@/helper/checkIsActive";
@@ -540,7 +540,7 @@ export default function AccountDialogues({
 										height={50}
 										src={
 											getInterlocutor(chat)?.photos[0]?.url
-												? `${config.MEDIA_URL}/${getInterlocutor(chat)?.photos[0]?.url}`
+                            ? resolveMediaUrl(getInterlocutor(chat)?.photos[0]?.url) ?? ""
 												: getInterlocutor(chat)?.sex === "male"
 													? "/men.jpg"
 													: "/woman.jpg"

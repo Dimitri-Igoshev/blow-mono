@@ -1,4 +1,4 @@
-import { config } from "@/common/env";
+import { config, resolveMediaUrl } from "@/common/env";
 import type { Metadata, ResolvingMetadata } from "next";
 import ProfileClient from "./ProfileClient";
 
@@ -63,42 +63,44 @@ export async function generateMetadata(
 		profile.city ? `— ${profile.city}` : undefined,
 	].filter(Boolean);
 
-	const title = `${titleParts.join(", ")} | Анкета`;
-	const description =
-		profile.about ??
-		`Профиль ${profile.firstName}${
-			profile.city ? `, ${profile.city}` : ""
-		} — знакомства для содержанок и спонсоров.`;
+        const title = `${titleParts.join(", ")} | Анкета`;
+        const description =
+                profile.about ??
+                `Профиль ${profile.firstName}${
+                        profile.city ? `, ${profile.city}` : ""
+                } — знакомства для содержанок и спонсоров.`;
 
-	const canonical = `/search/${profile._id}`;
+        const canonical = `/search/${profile._id}`;
+        const firstPhotoRaw = profile?.photos?.[0];
+        const firstPhotoPath =
+                typeof firstPhotoRaw === "string" ? firstPhotoRaw : firstPhotoRaw?.url;
+        const firstPhotoUrl = resolveMediaUrl(firstPhotoPath);
 
-	return {
-		title,
-		description,
-		alternates: { canonical },
-		openGraph: {
-			type: "profile",
-			title,
-			description,
-			url: canonical,
-			images: profile?.photos?.[0]?.url
-				? [
-						{
-							url: `${config.MEDIA_URL}/${profile.photos[0].url}`,
-							width: 1200,
-							height: 630,
-						},
-					]
-				: undefined,
-		},
-		twitter: {
-			card: "summary_large_image",
-			title,
-			description,
-			images: profile?.photos?.[0]?.url
-				? [`${config.MEDIA_URL}/${profile.photos[0].url}`]
-				: undefined,
-		},
+        return {
+                title,
+                description,
+                alternates: { canonical },
+                openGraph: {
+                        type: "profile",
+                        title,
+                        description,
+                        url: canonical,
+                        images: firstPhotoUrl
+                                ? [
+                                                {
+                                                        url: firstPhotoUrl,
+                                                        width: 1200,
+                                                        height: 630,
+                                                },
+                                        ]
+                                : undefined,
+                },
+                twitter: {
+                        card: "summary_large_image",
+                        title,
+                        description,
+                        images: firstPhotoUrl ? [firstPhotoUrl] : undefined,
+                },
 		robots: { index: true, follow: true },
 	};
 }

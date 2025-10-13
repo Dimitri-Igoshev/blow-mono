@@ -5,7 +5,7 @@ import { Image } from "@heroui/image";
 import { format } from "date-fns";
 import { cn } from "@heroui/theme";
 
-import { config } from "@/common/env";
+import { resolveMediaUrl } from "@/common/env";
 import { useGetMeQuery } from "@/redux/services/userApi";
 import { maskContacts } from "@/helper/maskContacts";
 import { isPremium } from "@/helper/checkIsActive";
@@ -33,10 +33,12 @@ export const Message: FC<MessageProps> = ({
 	const premium = isPremium(me);
 	const router = useRouter();
 
-	const handleDownload = async () => {
-		const fileUrl = `${config.MEDIA_URL}/${message?.fileUrl}`;
+        const handleDownload = async () => {
+                const fileUrl = resolveMediaUrl(message?.fileUrl);
 
-		const response = await fetch(fileUrl);
+                if (!fileUrl) return;
+
+                const response = await fetch(fileUrl);
 		const blob = await response.blob();
 
 		const url = window.URL.createObjectURL(blob);
@@ -91,8 +93,8 @@ export const Message: FC<MessageProps> = ({
 						className="rounded-full z-0 relative min-w-[30px] cursor-pointer"
 						height={30}
 						src={
-							message?.sender?.photos?.[0]?.url
-								? `${config.MEDIA_URL}/${message?.sender?.photos?.[0]?.url}`
+                                                        message?.sender?.photos?.[0]?.url
+                                                                ? resolveMediaUrl(message?.sender?.photos?.[0]?.url) ?? ""
 								: message?.sender?.sex === "male"
 									? "/men.jpg"
 									: "/woman.jpg"
@@ -138,7 +140,7 @@ export const Message: FC<MessageProps> = ({
 							<Image
 								alt=""
 								className="rounded-lg z-0 relative min-w-[200px]"
-								src={`${config.MEDIA_URL}/${message?.fileUrl}`}
+                                                                src={resolveMediaUrl(message?.fileUrl) ?? ""}
 								style={{ objectFit: "cover" }}
 							/>
 							<Button

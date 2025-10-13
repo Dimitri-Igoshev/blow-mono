@@ -8,7 +8,7 @@ import { PiWaveform } from "react-icons/pi";
 import { useRouter } from "next/navigation";
 // import Image from "next/image";
 
-import { config } from "@/common/env";
+import { resolveMediaUrl } from "@/common/env";
 // import { getCityString } from "@/helper/getCityString";
 import { ROUTES } from "@/app/routes";
 import { getActivityString } from "@/helper/getActivityString";
@@ -60,10 +60,16 @@ export const ProfilePreview: FC<ProfilePreviewProps> = ({
 			return;
 		}
 
-		const audio = new Audio(`${config.MEDIA_URL}/${item?.voice}`);
-		audio.play().catch((err) => {
-			console.error("Ошибка воспроизведения:", err);
-		});
+                const audioUrl = resolveMediaUrl(item?.voice);
+
+                if (!audioUrl) {
+                        return;
+                }
+
+                const audio = new Audio(audioUrl);
+                audio.play().catch((err) => {
+                        console.error("Ошибка воспроизведения:", err);
+                });
 	};
 
 	const { getCityLabel } = useCityLabel();
@@ -72,8 +78,12 @@ export const ProfilePreview: FC<ProfilePreviewProps> = ({
 
 	useEffect(() => {
 		if (!item?.photos?.[0]?.url) return;
-		const img = new window.Image();
-		img.src = `${config.MEDIA_URL}/${item.photos[0].url}`;
+                const img = new window.Image();
+                const src = resolveMediaUrl(item.photos[0].url);
+
+                if (!src) return;
+
+                img.src = src;
 		img.onload = () => {
 			setIsPortrait(img.height > img.width); // Определяем ориентацию
 		};
@@ -149,8 +159,8 @@ export const ProfilePreview: FC<ProfilePreviewProps> = ({
 							<img
 								alt=""
 								src={
-									item?.photos?.[0]?.url
-										? `${config.MEDIA_URL}/${item.photos[0].url}`
+                                                                        item?.photos?.[0]?.url
+                                                                                ? resolveMediaUrl(item.photos[0].url) ?? ""
 										: item?.sex === "male"
 											? "/men2.png"
 											: "/woman2.png"
