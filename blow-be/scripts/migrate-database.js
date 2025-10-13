@@ -6,7 +6,7 @@ const remoteUri =
   'mongodb://gen_user:%7C1q%3Aam%26%25T7JZiD@109.73.205.45:27017/?authSource=admin&directConnection=true';
 const localUri =
   process.env.LOCAL_MONGO_URI ||
-  'mongodb://root:example@127.0.0.1:27017/blow?authSource=admin';
+  'mongodb://root:example@mongo:27017/blow?authSource=admin';
 const dbName = process.env.MONGO_DB_NAME || 'blow';
 const batchSize = Number.parseInt(process.env.MIGRATION_BATCH_SIZE || '500', 10);
 
