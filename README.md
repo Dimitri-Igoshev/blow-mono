@@ -179,6 +179,34 @@ docker compose up -d
 Если после увеличения ресурсов проблема не исчезает, проверьте логи Docker (`docker logs <container>`/`journalctl -u docker.service`)
 на предмет других ошибок.
 
+## Перенос базы данных в контейнер MongoDB
+
+Для копирования production-данных в контейнер `mongo` предусмотрен скрипт
+`blow-be/scripts/migrate-database.js`. Он считывает документы из удалённой базы и
+переносит их в локальную (контейнер должен быть запущен и доступен по
+`mongodb://root:example@127.0.0.1:27017/blow?authSource=admin`, либо укажите
+собственную строку подключения).
+
+1. Убедитесь, что сервисы запущены: `docker compose up -d`.
+2. Экспортируйте переменные окружения (пароль нужно URL-экранировать):
+
+   ```bash
+   export REMOTE_MONGO_URI='mongodb://gen_user:%7C1q:am&%25T7JZiD@109.73.205.45:27017/blow?authSource=admin'
+   export LOCAL_MONGO_URI='mongodb://root:example@127.0.0.1:27017/blow?authSource=admin'
+   export MONGO_DB_NAME='blow'
+   ```
+
+3. Выполните скрипт из каталога бэкенда:
+
+   ```bash
+   cd blow-be
+   npm run db:sync
+   ```
+
+По умолчанию документы копируются пакетами по 500 записей. Измените размер
+пакета, установив `MIGRATION_BATCH_SIZE`. Скрипт удаляет локальные коллекции
+перед загрузкой данных и синхронизирует индексы.
+
 ## Резервное копирование MongoDB
 
 ```bash
