@@ -10,8 +10,16 @@ async function bootstrap() {
     .map((origin) => origin.trim())
     .filter(Boolean);
 
+  const defaultCorsOrigins = [
+    'http://localhost:3000',
+    'https://kutumba.ru',
+    'https://www.kutumba.ru',
+    'https://admin.kutumba.ru',
+    'https://api.kutumba.ru',
+  ];
+
   const origin = corsOrigins.length === 0
-    ? ['http://localhost:3000']
+    ? defaultCorsOrigins
     : corsOrigins.includes('*')
       ? true
       : corsOrigins;
