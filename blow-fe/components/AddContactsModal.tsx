@@ -41,7 +41,7 @@ export const AddContactsModal: FC<AddContactsModalProps> = ({
 		>
 			<ModalContent>
 				<ModalHeader className="flex flex-col gap-1 text-[20px]">
-					Акция! Получите 500₽ на баланс BLOW.RU
+                                    Акция! Получите 500₽ на баланс KUTUMBA.RU
 				</ModalHeader>
 				<ModalBody>
 					<p>

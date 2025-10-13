@@ -15,7 +15,7 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
         },
       },
       defaults: {
-        from: '"BLOW" <support@blow.ru>',
+        from: '"BLOW" <support@kutumba.ru>',
       },
       template: {
         dir: process.cwd() + '/templates/',

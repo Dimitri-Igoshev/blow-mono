@@ -106,19 +106,19 @@ export default function AccountServices() {
 		// 		order: {
 		// 			currency: "RUB",
 		// 			amount: price * 100,
-		// 			description: "Пополнение счета на сайте blow.ru",
+		// 			description: "Пополнение счета на сайте kutumba.ru",
 		// 			tracking_id: uuidv4().toString(), //идентификатор транзакции на стороне торговца
 		// 			additional_data: {
 		// 				contract: ["recurring", "card_on_flie"],
 		// 			}, //заполнить при необходимости получить в ответе токен.
 		// 		},
 		// 		settings: {
-		// 			return_url: "https://blow.ru/account/services", //URL, на который будет перенаправлен покупатель после завершения оплаты.
-		// 			success_url: "https://blow.ru/account/services",
-		// 			decline_url: "https://blow.ru/account/services",
-		// 			fail_url: "https://blow.ru/account/services",
-		// 			cancel_url: "https://blow.ru/account/services",
-		// 			notification_url: "https://blow.ru/api/notification", //адрес сервера торговца, на который система отправит автоматическое уведомление с финальным статусом транзакции.
+		// 			return_url: "https://kutumba.ru/account/services", //URL, на который будет перенаправлен покупатель после завершения оплаты.
+		// 			success_url: "https://kutumba.ru/account/services",
+		// 			decline_url: "https://kutumba.ru/account/services",
+		// 			fail_url: "https://kutumba.ru/account/services",
+		// 			cancel_url: "https://kutumba.ru/account/services",
+		// 			notification_url: "https://kutumba.ru/api/notification", //адрес сервера торговца, на который система отправит автоматическое уведомление с финальным статусом транзакции.
 		// 			button_next_text: "Вернуться в магазин",
 		// 			auto_pay: false,
 		// 			language: "ru",
@@ -142,7 +142,7 @@ export default function AccountServices() {
 		// 	payerId: me._id,
 		// 	token: "c35920a427827ce7643b5ba1",
 		// 	amount: price,
-		// 	description: "Пополнение счета на сайте blow.ru",
+		// 	description: "Пополнение счета на сайте kutumba.ru",
 		// 	method: "card",
 		// 	order_id: uuidv4().toString(),
 		// };

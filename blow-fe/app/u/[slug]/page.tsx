@@ -11,7 +11,7 @@ import {
 
 const API_BASE = config.API_URL;
 const MEDIA_BASE = config.MEDIA_URL;
-const SITE = "https://blow.ru";
+const SITE = "https://kutumba.ru";
 
 // ---------- helpers ----------
 function isObjectId(v: string) {

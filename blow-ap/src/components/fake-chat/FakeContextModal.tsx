@@ -47,7 +47,7 @@ export const FakeContextModal = ({ isOpen, onOpenChange, chatId }: any) => {
                       className="cursor-pointer min-w-10"
                       onClick={() =>
                         window.open(
-                          `https://blow.ru/account/search/${chat?.sender?._id}`
+                          `https://kutumba.ru/account/search/${chat?.sender?._id}`
                         )
                       }
                     />

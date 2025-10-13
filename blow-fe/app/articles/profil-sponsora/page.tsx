@@ -6,14 +6,14 @@ export const metadata: Metadata = {
   description:
     "Что писать спонсору в анкете: цели, образ жизни, формат встреч, границы и конфиденциальность. Примеры, ошибки и правила этикета.",
   alternates: {
-    canonical: "https://blow.ru/profil-sponsora",
+    canonical: "https://kutumba.ru/profil-sponsora",
   },
   openGraph: {
     type: "article",
     title: "Профиль спонсора: структура, примеры и этикет",
     description:
       "Структура анкеты спонсора, готовые примеры, частые ошибки и корректная коммуникация на старте.",
-    url: "https://blow.ru/profil-sponsora",
+    url: "https://kutumba.ru/profil-sponsora",
   },
   twitter: {
     card: "summary",

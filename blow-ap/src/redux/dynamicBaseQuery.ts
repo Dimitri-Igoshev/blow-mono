@@ -20,7 +20,7 @@ export const dynamicBaseQuery: BaseQueryFn<
     _id: "687059ff52b5bebf3df39225",
     name: "Blow",
     slug: "blow",
-    // apiUrl: "https://api.blow.ru/api",
+    // apiUrl: "https://api.kutumba.ru/api",
     apiUrl: ENV.API_URL,
     config: {
       themeColors: {
@@ -39,7 +39,7 @@ export const dynamicBaseQuery: BaseQueryFn<
     updatedAt: "2025-07-11T00:25:35.421Z",
     __v: 0,
     description: "Поиск лучших содержанок и самых успешных мужчин",
-    // apiMediaUrl: "https://api.blow.ru",
+    // apiMediaUrl: "https://api.kutumba.ru",
     apiMediaUrl: ENV.MEDIA_URL,
     token: {
       email: "dimi.igoshev@gmail.com",

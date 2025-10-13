@@ -124,7 +124,7 @@ export const useEntityActions = () => {
 
         case "toProfile":
           window.open(
-            `https://blow.ru/account/search/${value._id}`,
+            `https://kutumba.ru/account/search/${value._id}`,
             "_blank",
             "noopener,noreferrer"
           );

@@ -89,8 +89,8 @@ export class AuthService {
     this.mailerService
       .sendMail({
         to: data.email, // list of receivers
-        from: 'support@blow.ru', // sender address
-        subject: 'Подтверждение почты для blow.ru', // Subject line
+        from: 'support@kutumba.ru', // sender address
+        subject: 'Подтверждение почты для kutumba.ru', // Subject line
         text: 'Подтверждение почты', // plaintext body
         html: `
 <!DOCTYPE html>
@@ -198,8 +198,8 @@ export class AuthService {
     this.mailerService
       .sendMail({
         to: email, // list of receivers
-        from: 'support@blow.ru', // sender address
-        subject: 'Сброс пароля на blow.ru', // Subject line
+        from: 'support@kutumba.ru', // sender address
+        subject: 'Сброс пароля на kutumba.ru', // Subject line
         text: 'Сброс пароля', // plaintext body
         html: `
           <!DOCTYPE html>

@@ -17,7 +17,7 @@ export default function ArticlesPage() {
 					name="description"
 					content="Полезные статьи для пользователей BLOW"
 				/>
-				<link rel="canonical" href="https://blow.ru/articles" />
+				<link rel="canonical" href="https://kutumba.ru/articles" />
 				<meta property="og:type" content="article" />
 				<meta property="og:title" content="Статьи" />
 				<meta

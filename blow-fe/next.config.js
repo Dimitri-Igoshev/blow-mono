@@ -4,7 +4,7 @@ const imageHosts = (process.env.NEXT_PUBLIC_IMAGE_HOSTS || '')
   .map((host) => host.trim())
   .filter(Boolean);
 
-const defaultImageHosts = imageHosts.length > 0 ? imageHosts : ['api.blow.ru'];
+const defaultImageHosts = imageHosts.length > 0 ? imageHosts : ['api.kutumba.ru'];
 
 const nextConfig = {
   output: 'standalone',

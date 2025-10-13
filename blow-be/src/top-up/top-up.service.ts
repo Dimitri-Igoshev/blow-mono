@@ -40,7 +40,7 @@ export class TopUpService {
     });
     await newTopUp.save();
 
-    return `https://blow.ru/account/services?topup=${token}`;
+    return `https://kutumba.ru/account/services?topup=${token}`;
   }
 
   async verifyTopUpToken(data: { token: string }) {

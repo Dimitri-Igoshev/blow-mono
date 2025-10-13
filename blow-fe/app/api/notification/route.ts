@@ -206,7 +206,7 @@ export async function POST(req: NextRequest) {
 //     const token = await res.json(); // { access_token, expires_in, ... }
 
 //     // кладём токен в httpOnly-cookie и редиректим на дашборд
-//     const resp = NextResponse.redirect(new URL('https://blow.ru/account/services', url.origin));
+//     const resp = NextResponse.redirect(new URL('https://kutumba.ru/account/services', url.origin));
 //     resp.cookies.set({
 //       name: 'ym_token',
 //       value: token.access_token,

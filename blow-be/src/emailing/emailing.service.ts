@@ -30,8 +30,8 @@ export class EmailingService {
       sex,
       dryRun = false,
       limit,
-      from = 'support@blow.ru',
-      ctaLink = 'https://blow.ru',
+      from = 'support@kutumba.ru',
+      ctaLink = 'https://kutumba.ru',
       ctaText = 'Перейти на сайт',
     } = dto;
 
@@ -112,8 +112,8 @@ export class EmailingService {
       sex,
       dryRun = false,
       limit,
-      from = 'support@blow.ru',
-      ctaLink = 'https://blow.ru',
+      from = 'support@kutumba.ru',
+      ctaLink = 'https://kutumba.ru',
       ctaText = 'Перейти на сайт',
       amount = 500,
     } = dto;

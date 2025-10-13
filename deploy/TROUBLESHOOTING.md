@@ -68,7 +68,7 @@ docker compose exec nginx curl -I http://backend:4000/api
 
   ```bash
   curl -v http://212.193.30.131
-  curl -v https://blow.ru --resolve blow.ru:443:212.193.30.131
+  curl -v https://kutumba.ru --resolve kutumba.ru:443:212.193.30.131
   ```
 
   Вторая команда обходить DNS и позволяет увидеть, отвечает ли сервер по HTTPS.

@@ -7,14 +7,14 @@ export const metadata: Metadata = {
   description:
     "Роли, обратная связь по методу SBI, границы и конфиденциальность. Планирование совместных активностей и корректное завершение.",
   alternates: {
-    canonical: "https://blow.ru/etiket-i-dolgosrochnye-otnosheniya-win-win",
+    canonical: "https://kutumba.ru/etiket-i-dolgosrochnye-otnosheniya-win-win",
   },
   openGraph: {
     type: "article",
     title: "Этикет win-win: долгосрочные отношения",
     description:
       "Как не выгореть и развиваться вместе: правила общения и регулярные сверки.",
-    url: "https://blow.ru/etiket-i-dolgosrochnye-otnosheniya-win-win",
+    url: "https://kutumba.ru/etiket-i-dolgosrochnye-otnosheniya-win-win",
   },
   twitter: {
     card: "summary",
