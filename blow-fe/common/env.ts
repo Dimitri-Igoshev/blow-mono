@@ -40,11 +40,23 @@ const normalizeProxyPath = (value: string) => {
   return value;
 };
 
-const serverApiUrl = ensureHttps(
-  getEnv("NEXT_PUBLIC_BACKEND_URL") ||
-    getEnv("NEXT_PUBLIC_API_URL") ||
-    "https://api.kutumba.ru/api",
-);
+const pickServerApiUrl = () => {
+  const backendUrl = getEnv("NEXT_PUBLIC_BACKEND_URL");
+
+  if (backendUrl && !isRelativeUrl(backendUrl)) {
+    return ensureHttps(backendUrl);
+  }
+
+  const publicApiUrl = getEnv("NEXT_PUBLIC_API_URL");
+
+  if (publicApiUrl && !isRelativeUrl(publicApiUrl)) {
+    return ensureHttps(publicApiUrl);
+  }
+
+  return ensureHttps("https://api.kutumba.ru/api");
+};
+
+const serverApiUrl = pickServerApiUrl();
 
 const proxyPath = normalizeProxyPath(
   getEnv("NEXT_PUBLIC_API_PROXY_PATH", "/api/proxy")!,
