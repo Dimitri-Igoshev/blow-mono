@@ -95,9 +95,11 @@ const ensureApiUrl = (rawUrl: string) => {
 
 const isRelativeUrl = (value: string) => /^(\.\/|\.\.\/|\/)/.test(value);
 
+const DEFAULT_PROXY_PATH = "/api";
+
 const normalizeProxyPath = (value: string) => {
   if (!value) {
-    return "/api/proxy";
+    return DEFAULT_PROXY_PATH;
   }
 
   if (isRelativeUrl(value)) {
@@ -181,12 +183,12 @@ const getBrowserApiUrl = (
 const createConfig = () => {
   const serverApiUrl = pickServerApiUrl();
   const proxyPath = normalizeProxyPath(
-    getEnv("NEXT_PUBLIC_API_PROXY_PATH", "/api/proxy")!,
+    getEnv("NEXT_PUBLIC_API_PROXY_PATH", DEFAULT_PROXY_PATH)!,
   );
   const browserFallbackPath = normalizeProxyPath(
     getEnv("NEXT_PUBLIC_API_BROWSER_FALLBACK_PATH") ??
       getEnv("NEXT_PUBLIC_API_PROXY_PATH") ??
-      "/api/proxy",
+      DEFAULT_PROXY_PATH,
   );
 
   const apiUrl =
