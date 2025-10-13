@@ -182,7 +182,9 @@ const createConfig = () => {
   );
 
   const apiUrl =
-    typeof window === "undefined" ? serverApiUrl : 'https://api.kutumba.ru/api';
+    typeof window === "undefined"
+      ? serverApiUrl
+      : getBrowserApiUrl(proxyPath, browserFallbackPath);
 
   const mediaUrl = ensureHttps(
     getEnv("NEXT_PUBLIC_MEDIA_URL") ||
