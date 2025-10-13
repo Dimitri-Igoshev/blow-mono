@@ -122,11 +122,10 @@ docker compose ps
 После первого запуска Nginx уже обслуживает HTTP и отдаёт ACME challenge из `/var/www/certbot`. Если реальных сертификатов ещё нет, контейнер автоматически подставит самоподписанную пару из `deploy/nginx/dev-certs` — это позволяет сервисам стартовать и дождаться выдачи Let’s Encrypt. Выполните выдачу сертификата (запросы к портам 80/443 должны доходить до сервера):
 
 ```bash
-docker compose run --rm certbot certonly \
-  --webroot -w /var/www/certbot \
-  -d kutumba.ru -d www.kutumba.ru \
-  -d api.kutumba.ru -d admin.kutumba.ru
+./deploy/certbot/issue.sh
 ```
+
+Скрипт удаляет временные самоподписанные файлы в томе `certbot_certs`, если они ещё не были заменены реальными сертификатами Let’s Encrypt. Без этого шага Certbot может завершиться ошибкой `live directory exists for kutumba.ru`, потому что директория `/etc/letsencrypt/live/kutumba.ru` уже создана контейнером Nginx для заглушечных сертификатов.
 
 После успешного получения сертификата перезапустите Nginx, чтобы он подхватил файлы:
 
