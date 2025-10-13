@@ -75,7 +75,7 @@ const proxyPath = normalizeProxyPath(
 );
 
 const browserFallbackPath = normalizeProxyPath(
-  getEnv("NEXT_PUBLIC_API_BROWSER_FALLBACK_PATH", "/api"),
+  getEnv("NEXT_PUBLIC_API_BROWSER_FALLBACK_PATH", "/api") ?? "/api",
 );
 
 const getBrowserApiUrl = () => {
