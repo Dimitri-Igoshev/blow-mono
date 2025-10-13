@@ -19,7 +19,7 @@ Dockerfile # в каждом приложении
 ## Предварительные требования
 
 * Ubuntu 22.04/24.04 (инструкции ниже протестированы на Timeweb Cloud).
-* Настроенные DNS-записи A/AAAA для доменов `kutumba.ru`, `api.kutumba.ru`, `admin.kutumba.ru`, указывающие на IP сервера.
+* Настроенные DNS-записи A/AAAA для доменов `blow.ru`, `api.blow.ru`, `admin.blow.ru`, указывающие на IP сервера.
 * Открытые порты 22, 80 и 443 в настройках фаервола/безопасности провайдера.
 * Аккаунт Docker Hub (для авторизации при сборке образов и избежания ограничения по анонимным скачиваниям).
 
@@ -90,7 +90,7 @@ git clone https://github.com/<your-org>/blow-mono.git .
    ```
    Отредактируйте каждый файл, указав реальные значения (SMTP учётные данные, ключи YooMoney, адреса доменов и т.д.). Для production-значений можно создать файлы вида `backend.env.local` и прописать их в `.gitignore`, либо править существующие `.env` непосредственно на сервере.
 
-3. При необходимости измените `deploy/nginx/conf.d/app.conf`, если домены отличаются от приведённых (`kutumba.ru`, `api.kutumba.ru`, `admin.kutumba.ru`).
+3. При необходимости измените `deploy/nginx/conf.d/app.conf`, если домены отличаются от приведённых (`blow.ru`, `api.blow.ru`, `admin.blow.ru`).
 
 ## Сборка и запуск
 
@@ -124,8 +124,8 @@ docker compose ps
 ```bash
 docker compose run --rm certbot certonly \
   --webroot -w /var/www/certbot \
-  -d kutumba.ru -d www.kutumba.ru \
-  -d api.kutumba.ru -d admin.kutumba.ru
+  -d blow.ru -d www.blow.ru \
+  -d api.blow.ru -d admin.blow.ru
 ```
 
 После успешного получения сертификата перезапустите Nginx, чтобы он подхватил файлы:
