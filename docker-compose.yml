@@ -23,6 +23,7 @@ services:
     ports:
       - "4000:4000"
     volumes:
+      - ./uploads:/app/uploads:rw
       - uploads_data:/app/uploads
     networks:
       - blow
