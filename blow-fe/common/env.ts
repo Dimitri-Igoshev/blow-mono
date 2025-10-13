@@ -145,6 +145,22 @@ const pickAppUrl = () => {
   return "http://localhost:3000";
 };
 
+const getBaseDomain = (hostname: string) => {
+  const lower = hostname.toLowerCase();
+
+  if (/^\d{1,3}(?:\.\d{1,3}){3}$/.test(lower)) {
+    return lower;
+  }
+
+  const parts = lower.split(".").filter(Boolean);
+
+  if (parts.length <= 2) {
+    return parts.join(".");
+  }
+
+  return parts.slice(-2).join(".");
+};
+
 const getBrowserApiUrl = (
   serverApiUrl: string,
   proxyPath: string,
@@ -170,7 +186,18 @@ const getBrowserApiUrl = (
       const currentOrigin = window.location.origin;
 
       if (parsed.origin !== currentOrigin) {
-        return fallbackUrl;
+        try {
+          const current = new URL(currentOrigin);
+          const parsedBase = getBaseDomain(parsed.hostname);
+          const currentBase = getBaseDomain(current.hostname);
+          const isLocalHost = /^(localhost|127\.0\.0\.1)$/i.test(current.hostname);
+
+          if (!parsedBase || !currentBase || parsedBase !== currentBase || isLocalHost) {
+            return fallbackUrl;
+          }
+        } catch {
+          return fallbackUrl;
+        }
       }
     }
 
