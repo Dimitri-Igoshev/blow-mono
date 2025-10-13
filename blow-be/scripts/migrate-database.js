@@ -3,7 +3,7 @@
 const { MongoClient } = require('mongodb');
 
 const remoteUri =
-  'mongodb://gen_user:%7C1q%3Aam%26%25T7JZiD@109.73.205.45:27017/?authSource=admin';
+  'mongodb://gen_user:%7C1q%3Aam%26%25T7JZiD@109.73.205.45:27017/?authSource=admin&directConnection=true';
 const localUri =
   process.env.LOCAL_MONGO_URI ||
   'mongodb://root:example@127.0.0.1:27017/blow?authSource=admin';
