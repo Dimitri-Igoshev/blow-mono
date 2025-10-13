@@ -46,6 +46,7 @@ const ensureHttps = (rawUrl: string) => {
 };
 
 const hasProtocol = /^[a-zA-Z][a-zA-Z\d+-.]*:\/\//;
+const hasScheme = /^[a-zA-Z][a-zA-Z\d+-.]*:/;
 
 const appendProtocol = (value: string, protocol: "http:" | "https:") => {
   if (hasProtocol.test(value)) {
@@ -246,3 +247,28 @@ export const config: AppConfig = new Proxy({} as AppConfig, {
     };
   },
 });
+
+const trimLeadingSlashes = (value: string) => value.replace(/^\/+/, "");
+const trimTrailingSlashes = (value: string) => value.replace(/\/+$/, "");
+
+const ensureHttpScheme = (rawUrl: string) =>
+  hasProtocol.test(rawUrl) ? ensureHttps(rawUrl) : rawUrl;
+
+export const resolveMediaUrl = (path?: string | null) => {
+  if (!path) {
+    return undefined;
+  }
+
+  if (hasScheme.test(path)) {
+    return ensureHttpScheme(path);
+  }
+
+  const base = trimTrailingSlashes(config.MEDIA_URL);
+  const normalizedPath = trimLeadingSlashes(path);
+
+  if (!normalizedPath) {
+    return base;
+  }
+
+  return `${base}/${normalizedPath}`;
+};

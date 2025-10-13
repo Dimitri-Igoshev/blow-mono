@@ -5,7 +5,7 @@ import React, { useState, useRef } from "react";
 import { PiWaveform, PiRecordFill, PiStopFill } from "react-icons/pi";
 
 import { useGetMeQuery, useUpdateUserMutation } from "@/redux/services/userApi";
-import { config } from "@/common/env";
+import { resolveMediaUrl } from "@/common/env";
 import { BlowLoader } from "./BlowLoader";
 
 const VoiceRecorder = ({ className }: any) => {
@@ -91,12 +91,11 @@ const VoiceRecorder = ({ className }: any) => {
 
 	const audioRef = useRef<any>(null);
 
-	const handlePlay = () => {
-		setIsPlaying(true);
+        const handlePlay = () => {
+                setIsPlaying(true);
 
-		const audio = new Audio(
-			me?.voice ? `${config.MEDIA_URL}/${me.voice}` : audioUrl || ""
-		);
+                const resolved = me?.voice ? resolveMediaUrl(me.voice) : undefined;
+                const audio = new Audio(resolved || audioUrl || "");
 
 		// Сбросить isPlaying, когда проигрывание закончится
 		audio.addEventListener("ended", () => {

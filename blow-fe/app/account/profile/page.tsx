@@ -21,7 +21,7 @@ import {
 	useReiseProfileMutation,
 	useUpdateUserMutation,
 } from "@/redux/services/userApi";
-import { config } from "@/common/env";
+import { resolveMediaUrl } from "@/common/env";
 import { RAISE_ID } from "@/helper/checkIsActive";
 import { InfoModal } from "@/components/InfoModal";
 import { ConfirmModal } from "@/components/ConfirmModal";
@@ -119,12 +119,16 @@ const AccountProfilePage = () => {
 			.catch((err) => console.log(err));
 	};
 
-	const handlePlay = () => {
-		const audio = new Audio(`${config.MEDIA_URL}/${me?.voice}`);
-		audio.play().catch((err) => {
-			console.error("Ошибка воспроизведения:", err);
-		});
-	};
+        const handlePlay = () => {
+                const audioUrl = resolveMediaUrl(me?.voice);
+
+                if (!audioUrl) return;
+
+                const audio = new Audio(audioUrl);
+                audio.play().catch((err) => {
+                        console.error("Ошибка воспроизведения:", err);
+                });
+        };
 
 	const { getCityLabel} = useCityLabel()
 
@@ -140,13 +144,13 @@ const AccountProfilePage = () => {
 								width={"100%"}
 								height={width ? width : "100%"}
 								radius="full"
-								src={
-									me?.photos[0]?.url
-										? `${config.MEDIA_URL}/${me?.photos[0]?.url}`
-										: me?.sex === "male"
-											? "/men.jpg"
-											: "/woman.jpg"
-								}
+                                                                src={
+                                                                        me?.photos[0]?.url
+                                                                                ? resolveMediaUrl(me?.photos[0]?.url) ?? ""
+                                                                                : me?.sex === "male"
+                                                                                        ? "/men.jpg"
+                                                                                        : "/woman.jpg"
+                                                                }
 								style={{ objectFit: "cover" }}
 							/>
 							{/* <div className="absolute rounded-full w-10 h-10 bg-primary cursor-pointer flex justify-center items-center right-[40px] bottom-[40px] border-[2px] border-white z-20">

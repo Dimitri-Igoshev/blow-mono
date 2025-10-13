@@ -30,7 +30,7 @@ import {
 	useGetMeQuery,
 	useSetActivityMutation,
 } from "@/redux/services/userApi";
-import { config } from "@/common/env";
+import { resolveMediaUrl } from "@/common/env";
 import { CameraIcon } from "@/common/icons";
 import { isPremium } from "@/helper/checkIsActive";
 import { LiaCrownSolid } from "react-icons/lia";
@@ -374,7 +374,7 @@ export const Navbar = () => {
 											}
 											src={
 												me?.photos[0]?.url
-													? `${config.MEDIA_URL}/${me?.photos[0]?.url}`
+                                                                                                    ? resolveMediaUrl(me?.photos[0]?.url) ?? ""
 													: me?.sex === "male"
 														? "/men.jpg"
 														: "/woman.jpg"
