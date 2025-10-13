@@ -146,7 +146,7 @@ const getBrowserApiUrl = (
   proxyPath: string,
   browserFallbackPath: string,
 ) => {
-  const explicitUrl = pickEnv("NEXT_PUBLIC_API_URL", "NEXT_PUBLIC_API_BASE");
+  const explicitUrl = pickEnv('https://api.kutumba.ru/api', "NEXT_PUBLIC_API_URL", "NEXT_PUBLIC_API_BASE");
 
   if (!explicitUrl) {
     return browserFallbackPath || proxyPath;
