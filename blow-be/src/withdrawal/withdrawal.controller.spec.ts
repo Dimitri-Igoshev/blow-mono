@@ -8,7 +8,16 @@ describe('WithdrawalController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [WithdrawalController],
-      providers: [WithdrawalService],
+      providers: [
+        {
+          provide: WithdrawalService,
+          useValue: {
+            create: jest.fn(),
+            findAll: jest.fn(),
+            update: jest.fn(),
+          },
+        },
+      ],
     }).compile();
 
     controller = module.get<WithdrawalController>(WithdrawalController);

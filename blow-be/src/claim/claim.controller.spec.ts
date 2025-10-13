@@ -8,7 +8,16 @@ describe('ClaimController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [ClaimController],
-      providers: [ClaimService],
+      providers: [
+        {
+          provide: ClaimService,
+          useValue: {
+            create: jest.fn(),
+            findAll: jest.fn(),
+            update: jest.fn(),
+          },
+        },
+      ],
     }).compile();
 
     controller = module.get<ClaimController>(ClaimController);

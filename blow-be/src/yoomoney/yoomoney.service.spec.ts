@@ -1,15 +1,20 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { YoomoneyService } from './yoomoney.service';
+import { YooMoneyService } from './yoomoney.service';
 
-describe('YoomoneyService', () => {
-  let service: YoomoneyService;
+describe('YooMoneyService', () => {
+  let service: YooMoneyService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [YoomoneyService],
+      providers: [
+        {
+          provide: YooMoneyService,
+          useValue: {},
+        },
+      ],
     }).compile();
 
-    service = module.get<YoomoneyService>(YoomoneyService);
+    service = module.get<YooMoneyService>(YooMoneyService);
   });
 
   it('should be defined', () => {
