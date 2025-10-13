@@ -10,6 +10,7 @@ import {
 } from "@/lib/seo-profile";
 
 const API_BASE = config.API_URL;
+const MEDIA_BASE = config.MEDIA_URL;
 const SITE = "https://kutumba.ru";
 
 // ---------- helpers ----------
