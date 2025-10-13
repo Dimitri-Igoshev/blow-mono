@@ -10,14 +10,14 @@ function randomState(len = 16) {
   return Array.from(arr).map(b => b.toString(16).padStart(2,'0')).join('');
 }
 
-export async function GET(req: Request) {
-  const url = new URL(req.url);
-  const origin = url.origin;
-
+export async function GET(_req: Request) {
   const state = randomState();
   const scope = 'payment-p2p';
   const clientId = config.NEXT_PUBLIC_YOOMONEY_CLIENT_ID;
-  const redirectUri = config.YOOMONEY_REDIRECT_URI ?? `${origin}/api/yoomoney/callback`;
+  const redirectBase = config.API_PROXY_TARGET || config.SERVER_API_URL || 'https://api.kutumba.ru/api';
+  const normalizedBase = redirectBase.endsWith('/') ? redirectBase : `${redirectBase}/`;
+  const fallbackRedirect = new URL('yoomoney/callback', normalizedBase).toString();
+  const redirectUri = config.YOOMONEY_REDIRECT_URI ?? fallbackRedirect;
 
   // httpOnly cookie с 10-мин TTL
   const res = new NextResponse(
