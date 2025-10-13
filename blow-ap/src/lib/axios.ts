@@ -1,11 +1,10 @@
 import axios from 'axios';
 
+import { ENV } from '@/config/env';
 import { authStorage } from '@/redux/services/auth/storage';
 
 const api = axios.create({
-  // baseURL: "http://localhost:3000/api",
-  // baseURL: 'https://api.kutumba.ru/api',
-  baseURL: 'https://api.kutumba.ru/api',
+  baseURL: ENV.API_URL,
 });
 
 api.interceptors.request.use((config) => {
