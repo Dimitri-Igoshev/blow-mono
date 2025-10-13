@@ -196,6 +196,10 @@ docker compose up -d
    export MONGO_DB_NAME='blow'
    ```
 
+   export REMOTE_MONGO_URI='mongodb://gen_user:%7C1q%3Aam%26%25T7JZiD@109.73.205.45:27017/?authSource=admin'
+export LOCAL_MONGO_URI='mongodb://root:example@127.0.0.1:27017/blow?authSource=admin'
+export MONGO_DB_NAME='blow'
+
 3. Выполните скрипт из каталога бэкенда:
 
    ```bash
