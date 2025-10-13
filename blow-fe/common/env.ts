@@ -24,6 +24,13 @@ const ensureHttps = (rawUrl: string) => {
   try {
     const url = new URL(rawUrl);
 
+    if (
+      url.hostname === "kutumba.ru" &&
+      (url.pathname === "/api" || url.pathname.startsWith("/api/"))
+    ) {
+      url.hostname = "api.kutumba.ru";
+    }
+
     if (url.protocol === "http:" && url.hostname.endsWith("kutumba.ru")) {
       url.protocol = "https:";
 
