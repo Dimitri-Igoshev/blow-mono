@@ -2,20 +2,8 @@
 
 const { MongoClient } = require('mongodb');
 
-const REQUIRED_ENV_VARS = ['REMOTE_MONGO_URI'];
-
-for (const envVar of REQUIRED_ENV_VARS) {
-  if (!process.env[envVar]) {
-    console.error(
-      `Missing required environment variable ${envVar}.\n` +
-        'Set REMOTE_MONGO_URI to the source connection string (for example: \n' +
-        "mongodb://user:password@host:27017/blow?authSource=admin)."
-    );
-    process.exit(1);
-  }
-}
-
-const remoteUri = process.env.REMOTE_MONGO_URI;
+const remoteUri =
+  'mongodb://gen_user:%7C1q:am&%25T7JZiD@109.73.205.45:27017/blow?authSource=admin';
 const localUri =
   process.env.LOCAL_MONGO_URI ||
   'mongodb://root:example@127.0.0.1:27017/blow?authSource=admin';
@@ -84,8 +72,8 @@ function createHelpfulConnectionError(error, description, uri) {
     const lookupTarget = hostFromUri ? ` "${hostFromUri}"` : '';
     const hint =
       'The host name could not be resolved. Ensure that your network ' +
-      'connection is available and that the REMOTE_MONGO_URI value points ' +
-      'to a reachable server.';
+      'connection is available and that the configured remote MongoDB ' +
+      'server is reachable.';
     return new Error(
       `Failed to connect to ${description}: DNS lookup for${lookupTarget} failed.\n${hint}`,
       { cause: error }
