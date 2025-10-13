@@ -251,3 +251,6 @@ docker compose down
 * Для production стоит заменить стандартные Docker-тома на bind-монтаж папок (`./data/mongo:/data/db` и т.п.), чтобы упростить резервное копирование.
 
 При возникновении вопросов см. комментарии в `docker-compose.yml` и конфигурационных файлах Nginx.
+
+docker compose down --remove-orphans && docker system prune -af && docker builder prune -af && docker compose build --no-cache && docker compose up -d
+
