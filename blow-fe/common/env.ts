@@ -45,6 +45,33 @@ const ensureHttps = (rawUrl: string) => {
   return rawUrl;
 };
 
+const hasProtocol = /^[a-zA-Z][a-zA-Z\d+-.]*:\/\//;
+
+const appendProtocol = (value: string, protocol: "http:" | "https:") => {
+  if (hasProtocol.test(value)) {
+    return value;
+  }
+
+  const normalized = value.startsWith("//") ? value.slice(2) : value;
+
+  return `${protocol}//${normalized}`;
+};
+
+const isProbablyLocalhost = (value: string) =>
+  /(^|\/\/)(localhost|127\.0\.0\.1)(?::\d+)?(\/|$)/i.test(value);
+
+const normalizeAppUrl = (rawUrl: string) => {
+  const trimmed = rawUrl.trim();
+
+  if (!trimmed) {
+    return trimmed;
+  }
+
+  const defaultProtocol = isProbablyLocalhost(trimmed) ? "http:" : "https:";
+
+  return ensureHttps(appendProtocol(trimmed, defaultProtocol));
+};
+
 const ensureApiUrl = (rawUrl: string) => {
   const secured = ensureHttps(rawUrl);
 
@@ -96,6 +123,28 @@ const pickServerApiUrl = () => {
 };
 
 const serverApiUrl = pickServerApiUrl();
+
+const pickAppUrl = () => {
+  const explicitAppUrl = getEnv("NEXT_PUBLIC_APP_URL");
+
+  if (explicitAppUrl) {
+    return normalizeAppUrl(explicitAppUrl);
+  }
+
+  const vercelUrl = getEnv("VERCEL_URL");
+
+  if (vercelUrl) {
+    return normalizeAppUrl(vercelUrl);
+  }
+
+  if (typeof window !== "undefined") {
+    return window.location.origin;
+  }
+
+  return "http://localhost:3000";
+};
+
+const appUrl = pickAppUrl();
 
 const proxyPath = normalizeProxyPath(
   getEnv("NEXT_PUBLIC_API_PROXY_PATH", "/api/proxy")!,
@@ -155,7 +204,7 @@ export const config = {
   API_PROXY_PATH: proxyPath,
   API_PROXY_TARGET: serverApiUrl,
   MEDIA_URL: mediaUrl,
-  NEXT_PUBLIC_APP_URL: getEnv("NEXT_PUBLIC_APP_URL", "https://kutumba.ru"),
+  NEXT_PUBLIC_APP_URL: appUrl,
   NEXT_PUBLIC_API_URL: apiUrl,
   NEXT_PUBLIC_API_BASE: apiUrl,
   NEXT_PUBLIC_YOOMONEY_CLIENT_ID: getEnv("NEXT_PUBLIC_YOOMONEY_CLIENT_ID"),
