@@ -57,14 +57,62 @@ async function dropCollectionIfExists(db, collectionName) {
   }
 }
 
+function extractHostname(uri) {
+  if (typeof uri !== 'string') {
+    return undefined;
+  }
+
+  const withoutScheme = uri.replace(/^mongodb(\+srv)?:\/\//, '');
+  const withoutAuth = withoutScheme.includes('@')
+    ? withoutScheme.split('@')[1]
+    : withoutScheme;
+  const hostSection = withoutAuth.split('/')[0];
+
+  if (!hostSection) {
+    return undefined;
+  }
+
+  return hostSection.split(',')[0];
+}
+
+function createHelpfulConnectionError(error, description, uri) {
+  const hostFromUri = extractHostname(uri);
+
+  const errorCode = error?.code || error?.cause?.code;
+
+  if (errorCode === 'EAI_AGAIN' || errorCode === 'ENOTFOUND') {
+    const lookupTarget = hostFromUri ? ` "${hostFromUri}"` : '';
+    const hint =
+      'The host name could not be resolved. Ensure that your network ' +
+      'connection is available and that the REMOTE_MONGO_URI value points ' +
+      'to a reachable server.';
+    return new Error(
+      `Failed to connect to ${description}: DNS lookup for${lookupTarget} failed.\n${hint}`,
+      { cause: error }
+    );
+  }
+
+  return new Error(`Failed to connect to ${description}: ${error.message}`, {
+    cause: error,
+  });
+}
+
+async function connectClient(client, description, uri) {
+  try {
+    await client.connect();
+  } catch (error) {
+    throw createHelpfulConnectionError(error, description, uri);
+  }
+}
+
 async function migrate() {
   const remoteClient = new MongoClient(remoteUri);
   const localClient = new MongoClient(localUri);
 
   console.log('Connecting to remote MongoDB...');
-  await remoteClient.connect();
+  await connectClient(remoteClient, 'remote MongoDB', remoteUri);
   console.log('Connecting to local MongoDB...');
-  await localClient.connect();
+  await connectClient(localClient, 'local MongoDB', localUri);
 
   try {
     const remoteDb = remoteClient.db(dbName);
