@@ -95,9 +95,11 @@ const ensureApiUrl = (rawUrl: string) => {
 
 const isRelativeUrl = (value: string) => /^(\.\/|\.\.\/|\/)/.test(value);
 
+const DEFAULT_PROXY_PATH = "/api";
+
 const normalizeProxyPath = (value: string) => {
   if (!value) {
-    return "/api/proxy";
+    return DEFAULT_PROXY_PATH;
   }
 
   if (isRelativeUrl(value)) {
@@ -143,6 +145,22 @@ const pickAppUrl = () => {
   return "http://localhost:3000";
 };
 
+const getBaseDomain = (hostname: string) => {
+  const lower = hostname.toLowerCase();
+
+  if (/^\d{1,3}(?:\.\d{1,3}){3}$/.test(lower)) {
+    return lower;
+  }
+
+  const parts = lower.split(".").filter(Boolean);
+
+  if (parts.length <= 2) {
+    return parts.join(".");
+  }
+
+  return parts.slice(-2).join(".");
+};
+
 const getBrowserApiUrl = (
   serverApiUrl: string,
   proxyPath: string,
@@ -150,9 +168,10 @@ const getBrowserApiUrl = (
 ) => {
   const explicitUrl =
     pickEnv("NEXT_PUBLIC_API_URL", "NEXT_PUBLIC_API_BASE") ?? serverApiUrl;
+  const fallbackUrl = browserFallbackPath || proxyPath;
 
   if (!explicitUrl) {
-    return browserFallbackPath || proxyPath;
+    return fallbackUrl;
   }
 
   if (isRelativeUrl(explicitUrl)) {
@@ -160,9 +179,39 @@ const getBrowserApiUrl = (
   }
 
   try {
-    const parsed = new URL(explicitUrl);
+    const ensured = ensureApiUrl(explicitUrl);
+    const parsed = new URL(ensured);
 
-    return ensureApiUrl(parsed.toString());
+    if (typeof window !== "undefined") {
+      const currentOrigin = window.location.origin;
+
+      if (parsed.origin !== currentOrigin) {
+        try {
+          const current = new URL(currentOrigin);
+          const isLocalHost = /^(localhost|127\.0\.0\.1)$/i.test(parsed.hostname);
+
+          if (parsed.hostname !== current.hostname) {
+            if (!isLocalHost) {
+              return fallbackUrl;
+            }
+
+            return ensured;
+          }
+
+          if (parsed.port && parsed.port !== current.port) {
+            if (!isLocalHost) {
+              return fallbackUrl;
+            }
+
+            return ensured;
+          }
+        } catch {
+          return fallbackUrl;
+        }
+      }
+    }
+
+    return ensured;
   } catch {
     return explicitUrl;
   }
@@ -171,10 +220,12 @@ const getBrowserApiUrl = (
 const createConfig = () => {
   const serverApiUrl = pickServerApiUrl();
   const proxyPath = normalizeProxyPath(
-    getEnv("NEXT_PUBLIC_API_PROXY_PATH", "/api/proxy")!,
+    getEnv("NEXT_PUBLIC_API_PROXY_PATH", DEFAULT_PROXY_PATH)!,
   );
   const browserFallbackPath = normalizeProxyPath(
-    getEnv("NEXT_PUBLIC_API_BROWSER_FALLBACK_PATH", "/api") ?? "/api",
+    getEnv("NEXT_PUBLIC_API_BROWSER_FALLBACK_PATH") ??
+      getEnv("NEXT_PUBLIC_API_PROXY_PATH") ??
+      DEFAULT_PROXY_PATH,
   );
 
   const apiUrl =

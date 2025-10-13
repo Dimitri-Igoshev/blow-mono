@@ -1,4 +1,4 @@
-// app/api/proxy/[[...path]]/route.ts
+// app/api/[[...path]]/route.ts
 import { config } from "@/common/env";
 
 const hopByHopHeaders = new Set([
