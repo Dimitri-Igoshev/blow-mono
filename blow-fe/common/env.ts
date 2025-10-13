@@ -1,38 +1,100 @@
 const getEnv = (key: string, fallback?: string) => {
   const value = process.env[key];
+
   if (value === undefined || value === "") {
     return fallback;
   }
+
   return value;
 };
 
 const ensureHttps = (rawUrl: string) => {
   try {
     const url = new URL(rawUrl);
+
     if (url.protocol === "http:" && url.hostname.endsWith("kutumba.ru")) {
       url.protocol = "https:";
+
       return url.toString();
     }
+
+    return url.toString();
   } catch {
     // Ignore invalid URLs and return the original value.
   }
+
   return rawUrl;
 };
 
-const rawApiUrl =
-  getEnv("NEXT_PUBLIC_API_URL") ||
-  getEnv("NEXT_PUBLIC_BACKEND_URL") ||
-  "https://api.kutumba.ru/api";
+const isRelativeUrl = (value: string) => /^(\.\/|\.\.\/|\/)/.test(value);
 
-const apiUrl = ensureHttps(rawApiUrl);
+const normalizeProxyPath = (value: string) => {
+  if (!value) {
+    return "/api/proxy";
+  }
+
+  if (isRelativeUrl(value)) {
+    return value.startsWith("/") ? value : `/${value}`;
+  }
+
+  return value;
+};
+
+const serverApiUrl = ensureHttps(
+  getEnv("NEXT_PUBLIC_BACKEND_URL") ||
+    getEnv("NEXT_PUBLIC_API_URL") ||
+    "https://api.kutumba.ru/api",
+);
+
+const proxyPath = normalizeProxyPath(
+  getEnv("NEXT_PUBLIC_API_PROXY_PATH", "/api/proxy")!,
+);
+
+const getBrowserApiUrl = () => {
+  const explicitUrl = getEnv("NEXT_PUBLIC_API_URL");
+
+  if (!explicitUrl) {
+    return proxyPath;
+  }
+
+  if (isRelativeUrl(explicitUrl)) {
+    return explicitUrl;
+  }
+
+  try {
+    const parsed = new URL(explicitUrl);
+
+    if (
+      typeof window !== "undefined" &&
+      parsed.origin !== window.location.origin
+    ) {
+      return proxyPath;
+    }
+
+    return ensureHttps(parsed.toString());
+  } catch {
+    return explicitUrl;
+  }
+};
+
+const apiUrl =
+  typeof window === "undefined" ? serverApiUrl : getBrowserApiUrl();
 
 const mediaUrl = ensureHttps(
   getEnv("NEXT_PUBLIC_MEDIA_URL") ||
-    new URL("..", apiUrl.endsWith("/") ? apiUrl : `${apiUrl}/`).toString().replace(/\/$/, "")
+    new URL(
+      "..",
+      serverApiUrl.endsWith("/") ? serverApiUrl : `${serverApiUrl}/`,
+    )
+      .toString()
+      .replace(/\/$/, ""),
 );
 
 export const config = {
   API_URL: apiUrl,
+  SERVER_API_URL: serverApiUrl,
+  API_PROXY_PATH: proxyPath,
+  API_PROXY_TARGET: serverApiUrl,
   MEDIA_URL: mediaUrl,
   NEXT_PUBLIC_APP_URL: getEnv("NEXT_PUBLIC_APP_URL", "https://kutumba.ru"),
   NEXT_PUBLIC_API_URL: apiUrl,
