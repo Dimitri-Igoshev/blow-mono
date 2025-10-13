@@ -144,10 +144,12 @@ const pickAppUrl = () => {
 };
 
 const getBrowserApiUrl = (
+  serverApiUrl: string,
   proxyPath: string,
   browserFallbackPath: string,
 ) => {
-  const explicitUrl = pickEnv('https://api.kutumba.ru/api', "NEXT_PUBLIC_API_URL", "NEXT_PUBLIC_API_BASE");
+  const explicitUrl =
+    pickEnv("NEXT_PUBLIC_API_URL", "NEXT_PUBLIC_API_BASE") ?? serverApiUrl;
 
   if (!explicitUrl) {
     return browserFallbackPath || proxyPath;
@@ -159,13 +161,6 @@ const getBrowserApiUrl = (
 
   try {
     const parsed = new URL(explicitUrl);
-
-    if (
-      typeof window !== "undefined" &&
-      parsed.origin !== window.location.origin
-    ) {
-      return proxyPath;
-    }
 
     return ensureApiUrl(parsed.toString());
   } catch {
@@ -185,7 +180,7 @@ const createConfig = () => {
   const apiUrl =
     typeof window === "undefined"
       ? serverApiUrl
-      : getBrowserApiUrl(proxyPath, browserFallbackPath);
+      : getBrowserApiUrl(serverApiUrl, proxyPath, browserFallbackPath);
 
   const mediaUrl = ensureHttps(
     getEnv("NEXT_PUBLIC_MEDIA_URL") ||
