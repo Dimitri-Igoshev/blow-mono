@@ -179,6 +179,20 @@ docker compose up -d
 Если после увеличения ресурсов проблема не исчезает, проверьте логи Docker (`docker logs <container>`/`journalctl -u docker.service`)
 на предмет других ошибок.
 
+### Не появляется контейнер `backend`
+
+Если после `docker compose up -d` в выводе `docker ps` видно только `frontend`, `admin` и `mongo`, скорее всего контейнер
+`backend` упал сразу после старта из-за ошибки конфигурации.
+
+1. Проверьте статус командой `docker compose ps backend`. В случае проблемы столбец `STATE` покажет `Exited (1)` или другую ошибку.
+2. Просмотрите журнал: `docker compose logs backend`. В нём будет текст ошибки (например, отсутствие переменных окружения,
+   невозможность подключиться к MongoDB, неверные SMTP креды).
+3. Убедитесь, что файл `deploy/env/backend.env` заполнен корректно и совпадает с данными в корневом `.env`
+   (`MONGO_ROOT_USERNAME`/`MONGO_ROOT_PASSWORD`).
+4. После исправлений перезапустите только бэкенд: `docker compose up -d backend`.
+
+Когда ошибка устранена, контейнер `blow-mono-backend-1` появится в списке `docker ps`, а API станет доступно на порту 4000.
+
 ## Резервное копирование MongoDB
 
 ```bash
