@@ -6,6 +6,15 @@
   --vh: 1vh;
 }
 
+.font-sans-variable {
+  --font-sans: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.font-mono-variable {
+  --font-mono: "Fira Code", "SFMono-Regular", Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+}
+
 * {
   outline: none !important;
 }
