@@ -71,7 +71,6 @@ services:
     volumes:
       - certbot_challenges:/var/www/certbot
       - certbot_certs:/etc/letsencrypt
-    entrypoint: /bin/sh
     networks:
       - blow
 
