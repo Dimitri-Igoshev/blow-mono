@@ -5,6 +5,7 @@ import { authStorage } from '@/redux/services/auth/storage';
 
 const api = axios.create({
   baseURL: ENV.API_URL,
+  withCredentials: true,  
 });
 
 api.interceptors.request.use((config) => {
