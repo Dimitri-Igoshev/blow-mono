@@ -7,14 +7,14 @@ export const metadata: Metadata = {
   description:
     "Гид для девушек: выгоды формата win-win, безопасность, как обсуждать ожидания и поддержку, скрипты диалогов и частые вопросы. 18+.",
   alternates: {
-    canonical: "https://blow.ru/articles/devushki-v-sugar-dating-vygody",
+    canonical: "https://kutumba.ru/articles/devushki-v-sugar-dating-vygody",
   },
   openGraph: {
     type: "article",
     title: "Девушки и sugar-формат: выгоды, безопасность и как всё устроено",
     description:
       "Прозрачные ожидания, менторство и развитие, защита данных и границ. Полезные скрипты и FAQ. 18+.",
-    url: "https://blow.ru/articles/devushki-v-sugar-dating-vygody",
+    url: "https://kutumba.ru/articles/devushki-v-sugar-dating-vygody",
     // можно добавить images при необходимости
   },
   twitter: {

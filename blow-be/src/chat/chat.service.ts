@@ -35,7 +35,7 @@ export class ChatService {
 
     return this.mailerService.sendMail({
       to: recipient?.email,
-      from: 'support@blow.ru',
+      from: 'support@kutumba.ru',
       subject: `Новое сообщение от ${sender.firstName} — BLOW`,
       text: `Новое сообщение от ${sender.firstName}: ${messageText}`,
       html: `
@@ -186,7 +186,7 @@ export class ChatService {
         firstName: sender?.firstName || 'пользователя Blow',
       },
       messageText: isPremium(recipient) || recipient?.sex === 'female' ? savedMessage?.text : sanitizeContactsClient(savedMessage?.text).text,
-      chatLink: `https://blow.ru`,
+      chatLink: `https://kutumba.ru`,
     });
 
     // 7) вернуть сохранённое сообщение (с корректными датами)
@@ -236,7 +236,7 @@ export class ChatService {
         firstName: 'BLOW - системное сообщение',
       },
       messageText: savedMessage?.text || '',
-      chatLink: `https://blow.ru`,
+      chatLink: `https://kutumba.ru`,
     });
     return savedMessage;
   }

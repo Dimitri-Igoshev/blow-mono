@@ -2,7 +2,7 @@
 import { NextResponse } from "next/server";
 import { profilesShardUrls, getPublicProfilesCount } from "@/lib/sitemap-api";
 
-const SITE = process.env.NEXT_PUBLIC_BASE_URL ?? "https://blow.ru";
+const SITE = process.env.NEXT_PUBLIC_BASE_URL ?? "https://kutumba.ru";
 
 export const dynamic = "force-dynamic";     // <— ключ: НЕ пререндерим на билде
 export const revalidate = 3600;             // кэш на уровне Next (опционально)
@@ -18,7 +18,7 @@ export async function GET() {
 
     clearTimeout(t);
 
-    const shards = profilesShardUrls(count); // https://blow.ru/sitemaps/profiles-0001.xml …
+    const shards = profilesShardUrls(count); // https://kutumba.ru/sitemaps/profiles-0001.xml …
     const items = [
       `${SITE}/sitemaps/static.xml`,
       `${SITE}/sitemaps/cities.xml`,

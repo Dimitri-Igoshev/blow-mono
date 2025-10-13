@@ -7,14 +7,14 @@ export const metadata: Metadata = {
   description:
     "Типовые схемы, поведенческие красные флаги и пошаговый план защиты в формате знакомств win-win. Жалоба модерации, 2FA, безопасность.",
   alternates: {
-    canonical: "https://blow.ru/krasnye-flagi-i-moshenniki-v-sugar-dating",
+    canonical: "https://kutumba.ru/krasnye-flagi-i-moshenniki-v-sugar-dating",
   },
   openGraph: {
     type: "article",
     title: "Красные флаги и мошенники: как защититься",
     description:
       "Риски и защита: спешка, давление, фишинг-ссылки, «верификационные» платежи. 18+.",
-    url: "https://blow.ru/krasnye-flagi-i-moshenniki-v-sugar-dating",
+    url: "https://kutumba.ru/krasnye-flagi-i-moshenniki-v-sugar-dating",
   },
   twitter: {
     card: "summary",

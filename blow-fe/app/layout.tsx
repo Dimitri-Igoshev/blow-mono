@@ -12,7 +12,7 @@ import Script from "next/script";
 import ResetOverflowOnRouteChange from "@/components/ResetOverflowOnRouteChange";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://blow.ru"),
+  metadataBase: new URL("https://kutumba.ru"),
   title: {
     default: `${siteConfig.name} — знакомства содержанок и спонсоров`,
     template: `%s - ${siteConfig.name}`,
@@ -27,12 +27,12 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    url: "https://blow.ru",
+    url: "https://kutumba.ru",
     siteName: siteConfig.name,
     title: `${siteConfig.name} — знакомства содержанок и спонсоров`,
     description:
       "Платформа для знакомств содержанок и спонсоров: анкеты, встречи, общение.",
-    images: ["https://blow.ru/logo.png"],
+    images: ["https://kutumba.ru/logo.png"],
     locale: "ru_RU",
   },
   twitter: {
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     title: `${siteConfig.name} — знакомства`,
     description:
       "Знакомства для содержанок и спонсоров. Найди пару для приятного вечера.",
-    images: ["https://blow.ru/logo.png"],
+    images: ["https://kutumba.ru/logo.png"],
   },
   robots: {
     index: true,

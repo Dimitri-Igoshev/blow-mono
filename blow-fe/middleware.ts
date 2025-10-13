@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-const API = "https://api.blow.ru/api";
+const API = "https://api.kutumba.ru/api";
 // const API = "http://localhost:4000/api";
 
 export async function middleware(req: NextRequest) {

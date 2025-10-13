@@ -6,14 +6,14 @@ export const metadata: Metadata = {
   description:
     "Как оформить анкету содержанки: фото, описание, ожидания и границы. Шаблоны, анти-ошибки и чек-лист для высокого отклика.",
   alternates: {
-    canonical: "https://blow.ru/silnaya-anketa-soderzhanki",
+    canonical: "https://kutumba.ru/silnaya-anketa-soderzhanki",
   },
   openGraph: {
     type: "article",
     title: "Сильная анкета содержанки: примеры и шаблоны",
     description:
       "Фото, описание, ожидания и верификация: что работает лучше всего. Чек-лист и анти-ошибки.",
-    url: "https://blow.ru/silnaya-anketa-soderzhanki",
+    url: "https://kutumba.ru/silnaya-anketa-soderzhanki",
   },
   twitter: {
     card: "summary",

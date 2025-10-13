@@ -54,8 +54,8 @@ export async function GET() {
     '',
 
     // === Каноника/карта сайта ===
-    'Host: blow.ru',
-    'Sitemap: https://blow.ru/sitemap.xml',
+    'Host: kutumba.ru',
+    'Sitemap: https://kutumba.ru/sitemap.xml',
   ];
 
   const body = lines.join('\n') + '\n'; // финальный перенос строки — хороший тон

@@ -13,12 +13,12 @@ export const getMappedItem = (
         {
           label: "Продавец",
           value: `${item?.seller?.firstName || "Не указано"} (${item?.seller?.email})`,
-          link: `https://blow.ru/account/search/${item?.seller?._id}`,
+          link: `https://kutumba.ru/account/search/${item?.seller?._id}`,
         },
         {
           label: "Покупатель",
           value: `${item?.buyer?.firstName || "Не указано"} (${item?.buyer?.email})`,
-          link: `https://blow.ru/account/search/${item?.buyer?._id}`,
+          link: `https://kutumba.ru/account/search/${item?.buyer?._id}`,
         },
         {
           label: "Описание",
@@ -46,7 +46,7 @@ export const getMappedItem = (
         {
           label: "Запрашивает",
           value: `${item?.user?.firstName || "Не указано"} (${item?.user?.email})`,
-          link: `https://blow.ru/account/search/${item?.user?._id}`,
+          link: `https://kutumba.ru/account/search/${item?.user?._id}`,
         },
 
         {
@@ -69,7 +69,7 @@ export const getMappedItem = (
         {
           label: "Отправитель",
           value: `${item?.owner?.firstName || "Не указано"} (${item?.owner?.email})`,
-          link: `https://blow.ru/account/search/${item?.owner?._id}`,
+          link: `https://kutumba.ru/account/search/${item?.owner?._id}`,
         },
         {
           label: "Сообщение",
@@ -114,7 +114,7 @@ export const getMappedItem = (
         {
           label: "Пользователь",
           value: `${item?.userId?.firstName || "Не указано"} (${item?.userId?.email})`,
-          link: `https://blow.ru/account/search/${item?.userId?._id}`,
+          link: `https://kutumba.ru/account/search/${item?.userId?._id}`,
         },
         {
           label: "Тип",
@@ -155,12 +155,12 @@ export const getMappedItem = (
         {
           label: "Отправитель",
           value: `${item?.sender?.firstName || "Не указано"} (${item?.sender?.email})`,
-          link: `https://blow.ru/account/search/${item?.sender?._id}`,
+          link: `https://kutumba.ru/account/search/${item?.sender?._id}`,
         },
         {
           label: "Получатель",
           value: `${item?.recipient?.firstName || "Не указано"} (${item?.recipient?.email})`,
-          link: `https://blow.ru/account/search/${item?.recipient?._id}`,
+          link: `https://kutumba.ru/account/search/${item?.recipient?._id}`,
         },
         {
           label: "Сообщение",
@@ -177,12 +177,12 @@ export const getMappedItem = (
         {
           label: "От",
           value: `${item?.from?.firstName || "Не указано"} (${item?.from?.email || "Не указано"})`,
-          link: `https://blow.ru/account/search/${item?.from?._id}`,
+          link: `https://kutumba.ru/account/search/${item?.from?._id}`,
         },
         {
           label: "На",
           value: `${item?.about?.firstName || "Не указано"} (${item?.about?.email || "Не указано"})`,
-          link: `https://blow.ru/account/search/${item?.about?._id}`,
+          link: `https://kutumba.ru/account/search/${item?.about?._id}`,
         },
         {
           label: "Жалоба",

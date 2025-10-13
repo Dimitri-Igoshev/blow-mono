@@ -41,14 +41,14 @@ export default function ContactsPage() {
 					</p> */}
 					<p className="flex items-center gap-2">
 						<a
-							href="mailto:admin@blow.ru"
+							href="mailto:admin@kutumba.ru"
 							className="flex items-center gap-1.5 bg-foreground-100 p-2.5 rounded-full hover:bg-primary hover:text-white"
 						>
 							<MdEmail />
 						</a>
 						Почта:{" "}
-						<a href="mailto:admin@blow.ru" className="hover:text-primary">
-							admin@blow.ru
+						<a href="mailto:admin@kutumba.ru" className="hover:text-primary">
+							admin@kutumba.ru
 						</a>
 					</p>
 
