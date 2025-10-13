@@ -72,6 +72,7 @@ services:
       - ./deploy/nginx/dev-certs:/etc/nginx/dev-certs:ro
       - certbot_challenges:/var/www/certbot
       - certbot_certs:/etc/letsencrypt
+      - uploads_data:/app/uploads:ro 
     networks:
       - blow
 
