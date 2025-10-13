@@ -8,6 +8,18 @@ const getEnv = (key: string, fallback?: string) => {
   return value;
 };
 
+const pickEnv = (...keys: string[]) => {
+  for (const key of keys) {
+    const value = getEnv(key);
+
+    if (value !== undefined) {
+      return value;
+    }
+  }
+
+  return undefined;
+};
+
 const ensureHttps = (rawUrl: string) => {
   try {
     const url = new URL(rawUrl);
@@ -41,13 +53,16 @@ const normalizeProxyPath = (value: string) => {
 };
 
 const pickServerApiUrl = () => {
-  const backendUrl = getEnv("NEXT_PUBLIC_BACKEND_URL");
+  const backendUrl = pickEnv("NEXT_PUBLIC_BACKEND_URL", "API_INTERNAL_BASE");
 
   if (backendUrl && !isRelativeUrl(backendUrl)) {
     return ensureHttps(backendUrl);
   }
 
-  const publicApiUrl = getEnv("NEXT_PUBLIC_API_URL");
+  const publicApiUrl = pickEnv(
+    "NEXT_PUBLIC_API_URL",
+    "NEXT_PUBLIC_API_BASE",
+  );
 
   if (publicApiUrl && !isRelativeUrl(publicApiUrl)) {
     return ensureHttps(publicApiUrl);
@@ -63,7 +78,10 @@ const proxyPath = normalizeProxyPath(
 );
 
 const getBrowserApiUrl = () => {
-  const explicitUrl = getEnv("NEXT_PUBLIC_API_URL");
+  const explicitUrl = pickEnv(
+    "NEXT_PUBLIC_API_URL",
+    "NEXT_PUBLIC_API_BASE",
+  );
 
   if (!explicitUrl) {
     return proxyPath;
@@ -110,6 +128,7 @@ export const config = {
   MEDIA_URL: mediaUrl,
   NEXT_PUBLIC_APP_URL: getEnv("NEXT_PUBLIC_APP_URL", "https://kutumba.ru"),
   NEXT_PUBLIC_API_URL: apiUrl,
+  NEXT_PUBLIC_API_BASE: apiUrl,
   NEXT_PUBLIC_YOOMONEY_CLIENT_ID: getEnv("NEXT_PUBLIC_YOOMONEY_CLIENT_ID"),
   NEXT_YOOMONEY_CLIENT_SECRET: getEnv("NEXT_YOOMONEY_CLIENT_SECRET"),
   YOOMONEY_REDIRECT_URI: getEnv("YOOMONEY_REDIRECT_URI"),
