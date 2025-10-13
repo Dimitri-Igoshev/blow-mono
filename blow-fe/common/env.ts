@@ -59,10 +59,7 @@ const pickServerApiUrl = () => {
     return ensureHttps(backendUrl);
   }
 
-  const publicApiUrl = pickEnv(
-    "NEXT_PUBLIC_API_URL",
-    "NEXT_PUBLIC_API_BASE",
-  );
+  const publicApiUrl = pickEnv("NEXT_PUBLIC_API_URL", "NEXT_PUBLIC_API_BASE");
 
   if (publicApiUrl && !isRelativeUrl(publicApiUrl)) {
     return ensureHttps(publicApiUrl);
@@ -77,13 +74,18 @@ const proxyPath = normalizeProxyPath(
   getEnv("NEXT_PUBLIC_API_PROXY_PATH", "/api/proxy")!,
 );
 
+const browserFallbackPath = normalizeProxyPath(
+  getEnv("NEXT_PUBLIC_API_BROWSER_FALLBACK_PATH", "/api"),
+);
+
 const getBrowserApiUrl = () => {
-  const explicitUrl = pickEnv(
-    "NEXT_PUBLIC_API_URL",
-    "NEXT_PUBLIC_API_BASE",
-  );
+  const explicitUrl = pickEnv("NEXT_PUBLIC_API_URL", "NEXT_PUBLIC_API_BASE");
 
   if (!explicitUrl) {
+    if (browserFallbackPath) {
+      return browserFallbackPath;
+    }
+
     return proxyPath;
   }
 
