@@ -150,9 +150,10 @@ const getBrowserApiUrl = (
 ) => {
   const explicitUrl =
     pickEnv("NEXT_PUBLIC_API_URL", "NEXT_PUBLIC_API_BASE") ?? serverApiUrl;
+  const fallbackUrl = browserFallbackPath || proxyPath;
 
   if (!explicitUrl) {
-    return browserFallbackPath || proxyPath;
+    return fallbackUrl;
   }
 
   if (isRelativeUrl(explicitUrl)) {
@@ -160,9 +161,18 @@ const getBrowserApiUrl = (
   }
 
   try {
-    const parsed = new URL(explicitUrl);
+    const ensured = ensureApiUrl(explicitUrl);
+    const parsed = new URL(ensured);
 
-    return ensureApiUrl(parsed.toString());
+    if (typeof window !== "undefined") {
+      const currentOrigin = window.location.origin;
+
+      if (parsed.origin !== currentOrigin) {
+        return fallbackUrl;
+      }
+    }
+
+    return ensured;
   } catch {
     return explicitUrl;
   }
@@ -174,7 +184,9 @@ const createConfig = () => {
     getEnv("NEXT_PUBLIC_API_PROXY_PATH", "/api/proxy")!,
   );
   const browserFallbackPath = normalizeProxyPath(
-    getEnv("NEXT_PUBLIC_API_BROWSER_FALLBACK_PATH", "/api") ?? "/api",
+    getEnv("NEXT_PUBLIC_API_BROWSER_FALLBACK_PATH") ??
+      getEnv("NEXT_PUBLIC_API_PROXY_PATH") ??
+      "/api/proxy",
   );
 
   const apiUrl =
