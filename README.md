@@ -88,7 +88,7 @@ git clone https://github.com/<your-org>/blow-mono.git .
    cp deploy/env/frontend.env.example deploy/env/frontend.env
    cp deploy/env/admin.env.example deploy/env/admin.env
    ```
-   Отредактируйте каждый файл, указав реальные значения (SMTP учётные данные, ключи YooMoney, адреса доменов и т.д.). Для production-значений можно создать файлы вида `backend.env.local` и прописать их в `.gitignore`, либо править существующие `.env` непосредственно на сервере.
+   Отредактируйте каждый файл, указав реальные значения (SMTP учётные данные, ключи YooMoney, адреса доменов и т.д.). Для фронтенда обязательно пропишите `API_INTERNAL_BASE=http://backend:4000/api`, чтобы контейнер Next.js направлял серверные запросы напрямую во внутренний сервис `backend` и не упирался в TLS-сертификаты Nginx. Для production-значений можно создать файлы вида `backend.env.local` и прописать их в `.gitignore`, либо править существующие `.env` непосредственно на сервере.
 
 3. При необходимости измените `deploy/nginx/conf.d/app.conf`, если домены отличаются от приведённых (`kutumba.ru`, `api.kutumba.ru`, `admin.kutumba.ru`).
 
