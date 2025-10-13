@@ -55,12 +55,21 @@ services:
       - frontend
       - admin
       - backend
+    command: >-
+      /bin/sh -c "\
+      if [ ! -f /etc/letsencrypt/live/kutumba.ru/fullchain.pem ]; then \
+        echo 'No TLS certificate found, copying development self-signed bundle.'; \
+        mkdir -p /etc/letsencrypt/live/kutumba.ru; \
+        cp /etc/nginx/dev-certs/* /etc/letsencrypt/live/kutumba.ru/; \
+      fi; \
+      nginx -g 'daemon off;'"
     ports:
       - "80:80"
       - "443:443"
     volumes:
       - ./deploy/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./deploy/nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./deploy/nginx/dev-certs:/etc/nginx/dev-certs:ro
       - certbot_challenges:/var/www/certbot
       - certbot_certs:/etc/letsencrypt
     networks:
