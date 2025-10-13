@@ -103,7 +103,7 @@ const createRequestInit = async (req: NextRequest) => {
   return init;
 };
 
-type ProxyRouteContext = { params: { path: string | string[] } };
+type ProxyRouteContext = { params: { path?: string[] } };
 
 const proxy = async (req: NextRequest, { params }: ProxyRouteContext) => {
   if (!API_BASE) {
@@ -113,11 +113,7 @@ const proxy = async (req: NextRequest, { params }: ProxyRouteContext) => {
     );
   }
 
-  const pathSegments = Array.isArray(params.path)
-    ? params.path
-    : params.path
-      ? [params.path]
-      : [];
+  const pathSegments = params?.path ?? [];
   const targetUrl = buildTargetUrl(req, pathSegments);
 
   try {
