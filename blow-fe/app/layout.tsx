@@ -10,9 +10,22 @@ import { fontSans } from "@/config/fonts";
 import { Navbar } from "@/components/navbar";
 import Script from "next/script";
 import ResetOverflowOnRouteChange from "@/components/ResetOverflowOnRouteChange";
+import { config } from "@/common/env";
+
+const metadataBaseUrl = config.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+
+const metadataBase = (() => {
+  try {
+    return new URL(metadataBaseUrl);
+  } catch {
+    return new URL("http://localhost:3000");
+  }
+})();
+
+const metadataImages = ["/logo.png"];
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://kutumba.ru"),
+  metadataBase,
   title: {
     default: `${siteConfig.name} — знакомства содержанок и спонсоров`,
     template: `%s - ${siteConfig.name}`,
@@ -27,12 +40,12 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    url: "https://kutumba.ru",
+    url: "/",
     siteName: siteConfig.name,
     title: `${siteConfig.name} — знакомства содержанок и спонсоров`,
     description:
       "Платформа для знакомств содержанок и спонсоров: анкеты, встречи, общение.",
-    images: ["https://kutumba.ru/logo.png"],
+    images: metadataImages,
     locale: "ru_RU",
   },
   twitter: {
@@ -40,7 +53,7 @@ export const metadata: Metadata = {
     title: `${siteConfig.name} — знакомства`,
     description:
       "Знакомства для содержанок и спонсоров. Найди пару для приятного вечера.",
-    images: ["https://kutumba.ru/logo.png"],
+    images: metadataImages,
   },
   robots: {
     index: true,
