@@ -32,7 +32,7 @@ export const LayoutMainNavbar = () => {
           <img
             alt="Logo"
             className="h-[36px] min-w-[100px] w-auto"
-            src="https://api.kutumba.ru/core/BLOW%201.png"
+            src="https://api.blow.ru/core/BLOW%201.png"
           />
         </NavbarBrand>
       </NavbarContent>

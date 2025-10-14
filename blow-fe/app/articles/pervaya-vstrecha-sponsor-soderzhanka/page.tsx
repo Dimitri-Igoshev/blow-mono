@@ -7,13 +7,13 @@ export const metadata: Metadata = {
   description:
     "Гайд по первой встрече: безопасная локация, тайм-бокс 60–90 минут, темы разговора и чек-лист. Формат взрослых отношений win-win, без интим-услуг.",
   alternates: {
-    canonical: "https://kutumba.ru/pervaya-vstrecha-checklist",
+    canonical: "https://blow.ru/pervaya-vstrecha-checklist",
   },
   openGraph: {
     type: "article",
     title: "Первая встреча: безопасность, этикет и сценарий",
     description: "Пошаговый сценарий и безопасность на первой встрече. 18+.",
-    url: "https://kutumba.ru/pervaya-vstrecha-checklist",
+    url: "https://blow.ru/pervaya-vstrecha-checklist",
   },
   twitter: {
     card: "summary",

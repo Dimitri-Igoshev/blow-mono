@@ -10,7 +10,7 @@ import {
 } from "@/redux/services/chatApi";
 import { useGetMeQuery } from "@/redux/services/userApi";
 
-const fallbackSocketOrigin = "https://api.kutumba.ru";
+const fallbackSocketOrigin = "https://api.blow.ru";
 
 const buildSocketOrigin = () => {
   const apiUrl = config.API_URL ?? `${fallbackSocketOrigin}/api`;

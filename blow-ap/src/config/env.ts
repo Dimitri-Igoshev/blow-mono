@@ -1,7 +1,7 @@
 const apiUrl =
   import.meta.env.VITE_API_URL ||
   import.meta.env.VITE_BACKEND_URL ||
-  "https://api.kutumba.ru/api";
+  "https://api.blow.ru/api";
 
 const mediaUrl =
   import.meta.env.VITE_MEDIA_URL ||

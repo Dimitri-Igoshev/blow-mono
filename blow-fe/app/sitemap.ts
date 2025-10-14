@@ -38,7 +38,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
 	// Доп. карта только для статики (как у вас)
 	const staticMapUrl: MetadataRoute.Sitemap[number] = {
-		url: "https://kutumba.ru/sitemaps/static.xml",
+		url: "https://blow.ru/sitemaps/static.xml",
 		changeFrequency: "weekly",
 		priority: 0.8,
 	};

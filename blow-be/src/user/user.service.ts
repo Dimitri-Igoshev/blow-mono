@@ -436,7 +436,7 @@ export class UserService {
 
       this.mailerService.sendMail({
         to: result?.email,
-        from: 'support@kutumba.ru',
+        from: 'support@blow.ru',
         subject: `Новое сообщение от администрации — BLOW`,
         text: `Ваш аккаунт заблокирован`,
         html: `
@@ -1506,13 +1506,13 @@ export class UserService {
       try {
         await this.mailerService.sendMail({
           to: user.email,
-          from: 'support@kutumba.ru',
+          from: 'support@blow.ru',
           subject: 'Акция! Получите 500₽ на баланс KUTUMBA.RU',
           text: `Здравствуйте, ${firstName}!
 
 Акция! Получите 500₽ на баланс KUTUMBA.RU
 
-• Перейдите в «Редактирование профиля»: https://kutumba.ru/account/profile/edit
+• Перейдите в «Редактирование профиля»: https://blow.ru/account/profile/edit
 • Загрузите качественное фото (можно типажное)
 • Заполните профиль: имя, город, рост и вес, «О себе»
 • Запишите голосовое сообщение
@@ -1551,7 +1551,7 @@ export class UserService {
 
               <ul style="margin:0 0 16px 20px; padding:0;">
                 <li style="margin-bottom:8px;">
-                  <a href="https://kutumba.ru/account/profile/edit" style="color:#e31e24; text-decoration:none;">Перейдите в «Редактирование профиля»</a>
+                  <a href="https://blow.ru/account/profile/edit" style="color:#e31e24; text-decoration:none;">Перейдите в «Редактирование профиля»</a>
                 </li>
                 <li style="margin-bottom:8px;">Загрузите фото в профиль (качественное, чёткое; можно типажное)</li>
                 <li style="margin-bottom:8px;"><strong>Заполните профиль:</strong> имя, город, рост и вес, раздел «О себе»</li>
@@ -1569,7 +1569,7 @@ export class UserService {
               <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin-top:12px;">
                 <tr>
                   <td align="center" bgcolor="#e31e24" style="border-radius: 100px;">
-                    <a href="https://kutumba.ru/account/profile/edit"
+                    <a href="https://blow.ru/account/profile/edit"
                        style="display:inline-block; padding:12px 24px; color:#ffffff; text-decoration:none; font-weight:600; font-size:16px;">
                       К профилю
                     </a>

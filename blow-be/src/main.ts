@@ -37,10 +37,10 @@ bootstrap();
 
 //   const defaultCorsOrigins = [
 //     'http://localhost:3000',
-//     'https://kutumba.ru',
-//     'https://www.kutumba.ru',
-//     'https://admin.kutumba.ru',
-//     'https://api.kutumba.ru',
+//     'https://blow.ru',
+//     'https://www.blow.ru',
+//     'https://admin.blow.ru',
+//     'https://api.blow.ru',
 //   ];
 
 //   const origin = corsOrigins.length === 0
