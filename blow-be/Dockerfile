@@ -25,7 +25,7 @@ RUN npm ci --omit=dev --legacy-peer-deps
 
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/template ./template
-COPY --from=build /app/uploads ./uploads
+# COPY --from=build /app/uploads ./uploads
 COPY --from=build /app/scripts ./scripts
 
 # Pre-create uploads directory and mark as volume for persistence

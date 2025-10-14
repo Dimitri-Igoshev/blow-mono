@@ -7,11 +7,11 @@ import { path } from 'app-root-path';
 @Module({
   imports: [
     ServeStaticModule.forRoot({
-      // serveRoot: '/uploads',
-      // rootPath: `${path}/uploads`,
-      rootPath: '/app/uploads',
-      serveRoot: '/', // отдаём из корня
-      exclude: ['/api*', '/graphql*'], // важно, чтобы не перехватывать API
+      serveRoot: '/uploads',
+      rootPath: `${path}/uploads`,
+      // rootPath: '/app/uploads',
+      // serveRoot: '/', // отдаём из корня
+      // exclude: ['/api*', '/graphql*'], // важно, чтобы не перехватывать API
     }),
   ],
   controllers: [FileController],

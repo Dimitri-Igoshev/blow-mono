@@ -23,7 +23,9 @@ services:
     ports:
       - "4000:4000"
     volumes:
-      - uploads_data:/app/uploads
+      - ./blow-be/uploads:/app/uploads:rw   # ← bind из монорепо
+    # volumes:
+    #   - uploads_data:/app/uploads
     networks:
       - blow
 
@@ -72,7 +74,8 @@ services:
       - ./deploy/nginx/dev-certs:/etc/nginx/dev-certs:ro
       - certbot_challenges:/var/www/certbot
       - certbot_certs:/etc/letsencrypt
-      - uploads_data:/app/uploads:ro 
+      # - uploads_data:/app/uploads:ro 
+      - ./blow-be/uploads:/app/uploads:ro 
     networks:
       - blow
 
