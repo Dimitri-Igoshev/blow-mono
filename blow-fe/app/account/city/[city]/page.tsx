@@ -4,7 +4,7 @@ import Script from "next/script";
 import AccountSearch from "../../search/page";
 import { config } from "@/common/env";
 
-const SITE = "https://kutumba.ru";
+const SITE = "https://blow.ru";
 
 // ---- helpers ----
 async function getCities() {
@@ -126,7 +126,7 @@ function CityJsonLd({
     breadcrumb: {
       "@type": "BreadcrumbList",
       itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Главная", item: "https://kutumba.ru/" },
+        { "@type": "ListItem", position: 1, name: "Главная", item: "https://blow.ru/" },
         { "@type": "ListItem", position: 2, name: `Анкеты — ${cityLabel}`, item: canonicalAbs },
       ],
     },

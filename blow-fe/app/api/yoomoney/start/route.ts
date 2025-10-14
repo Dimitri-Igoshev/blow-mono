@@ -14,7 +14,7 @@ export async function GET(_req: Request) {
   const state = randomState();
   const scope = 'payment-p2p';
   const clientId = config.NEXT_PUBLIC_YOOMONEY_CLIENT_ID;
-  const redirectBase = config.API_PROXY_TARGET || config.SERVER_API_URL || 'https://api.kutumba.ru/api';
+  const redirectBase = config.API_PROXY_TARGET || config.SERVER_API_URL || 'https://api.blow.ru/api';
   const normalizedBase = redirectBase.endsWith('/') ? redirectBase : `${redirectBase}/`;
   const fallbackRedirect = new URL('yoomoney/callback', normalizedBase).toString();
   const redirectUri = config.YOOMONEY_REDIRECT_URI ?? fallbackRedirect;

@@ -25,13 +25,13 @@ const ensureHttps = (rawUrl: string) => {
     const url = new URL(rawUrl);
 
     if (
-      url.hostname === "kutumba.ru" &&
+      url.hostname === "blow.ru" &&
       (url.pathname === "/api" || url.pathname.startsWith("/api/"))
     ) {
-      url.hostname = "api.kutumba.ru";
+      url.hostname = "api.blow.ru";
     }
 
-    if (url.protocol === "http:" && url.hostname.endsWith("kutumba.ru")) {
+    if (url.protocol === "http:" && url.hostname.endsWith("blow.ru")) {
       url.protocol = "https:";
 
       return url.toString();
@@ -80,8 +80,8 @@ const ensureApiUrl = (rawUrl: string) => {
     const url = new URL(secured);
     const hostname = url.hostname.toLowerCase();
 
-    if (hostname === "kutumba.ru" || hostname === "www.kutumba.ru") {
-      url.hostname = "api.kutumba.ru";
+    if (hostname === "blow.ru" || hostname === "www.blow.ru") {
+      url.hostname = "api.blow.ru";
       return url.toString();
     }
 
@@ -122,7 +122,7 @@ const pickServerApiUrl = () => {
     return ensureApiUrl(publicApiUrl);
   }
 
-  return ensureApiUrl("https://api.kutumba.ru/api");
+  return ensureApiUrl("https://api.blow.ru/api");
 };
 
 const pickAppUrl = () => {

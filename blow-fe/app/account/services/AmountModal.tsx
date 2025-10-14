@@ -43,42 +43,42 @@ const AmountModal: FC<AmountModalProps> = ({ isOpen, onOpenChange }) => {
 								label={me?._id}
 								targets="Пополнение BLOW"
 								receiver="4100119320198570"
-								successURL="https://kutumba.ru/account/services"
+								successURL="https://blow.ru/account/services"
 							/>
 							<YoomoneyAuthButton
 								amount={500}
 								label={me?._id}
 								targets="Пополнение BLOW"
 								receiver="4100119320198570"
-								successURL="https://kutumba.ru/account/services"
+								successURL="https://blow.ru/account/services"
 							/>
 							<YoomoneyAuthButton
 								amount={1000}
 								label={me?._id}
 								targets="Пополнение BLOW"
 								receiver="4100119320198570"
-								successURL="https://kutumba.ru/account/services"
+								successURL="https://blow.ru/account/services"
 							/>
 							<YoomoneyAuthButton
 								amount={2000}
 								label={me?._id}
 								targets="Пополнение BLOW"
 								receiver="4100119320198570"
-								successURL="https://kutumba.ru/account/services"
+								successURL="https://blow.ru/account/services"
 							/>
 							<YoomoneyAuthButton
 								amount={5000}
 								label={me?._id}
 								targets="Пополнение BLOW"
 								receiver="4100119320198570"
-								successURL="https://kutumba.ru/account/services"
+								successURL="https://blow.ru/account/services"
 							/>
 							<YoomoneyAuthButton
 								amount={10000}
 								label={me?._id}
 								targets="Пополнение BLOW"
 								receiver="4100119320198570"
-								successURL="https://kutumba.ru/account/services"
+								successURL="https://blow.ru/account/services"
 							/>
             </div>
           </ModalBody>

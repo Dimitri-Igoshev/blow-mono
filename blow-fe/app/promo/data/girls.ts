@@ -50,7 +50,7 @@ export const profiles = [
 	},
 	{
 		_id: "68cc06832f65d965b7ecb505",
-		email: "fake+mfpfrgjc35e20d78e150@kutumba.ru",
+		email: "fake+mfpfrgjc35e20d78e150@blow.ru",
 		firstName: "Анна",
 		sex: "female",
 		city: "moscow",
@@ -96,7 +96,7 @@ export const profiles = [
 	},
 	{
 		_id: "68cc15662f65d965b7ed46bd",
-		email: "fake+mfpi15kjdfdb3d25315f@kutumba.ru",
+		email: "fake+mfpi15kjdfdb3d25315f@blow.ru",
 		firstName: "Лина",
 		sex: "female",
 		city: "piter",
@@ -142,7 +142,7 @@ export const profiles = [
 	},
 	{
 		_id: "68cc18af2f65d965b7ed7560",
-		email: "fake+mfpij5wd2f70778e9c58@kutumba.ru",
+		email: "fake+mfpij5wd2f70778e9c58@blow.ru",
 		firstName: "Виктория ",
 		sex: "female",
 		city: "piter",
@@ -188,7 +188,7 @@ export const profiles = [
 	},
 	{
 		_id: "68cbeff02f65d965b7eb8f9c",
-		email: "fake+mfpcbluiacebb7b13d82@kutumba.ru",
+		email: "fake+mfpcbluiacebb7b13d82@blow.ru",
 		firstName: "Полина",
 		sex: "female",
 		city: "piter",
@@ -235,7 +235,7 @@ export const profiles = [
 	},
 	{
 		_id: "68cafdfe525265ec4fb6a604",
-		email: "fake+mfobg23r07d12f4fab22@kutumba.ru",
+		email: "fake+mfobg23r07d12f4fab22@blow.ru",
 		firstName: "Di",
 		sex: "female",
 		city: "piter",
@@ -727,7 +727,7 @@ export const profiles = [
 	},
 	{
 		_id: "68cc4070eaf269fc85a538ee",
-		email: "fake+mfpolb50e6225c7195cc@kutumba.ru",
+		email: "fake+mfpolb50e6225c7195cc@blow.ru",
 		firstName: "Александра",
 		sex: "female",
 		city: "moscow",
@@ -774,7 +774,7 @@ export const profiles = [
 	},
 	{
 		_id: "68cc3fbfeaf269fc85a52641",
-		email: "fake+mfpohimbce5b6464521b@kutumba.ru",
+		email: "fake+mfpohimbce5b6464521b@blow.ru",
 		firstName: "Елена",
 		sex: "female",
 		city: "moscow",
@@ -821,7 +821,7 @@ export const profiles = [
 	},
 	{
 		_id: "68cc3fc1eaf269fc85a5266c",
-		email: "fake+mfpohk429be2bc5ab4d1@kutumba.ru",
+		email: "fake+mfpohk429be2bc5ab4d1@blow.ru",
 		firstName: "Аминка",
 		sex: "female",
 		city: "moscow",
@@ -867,7 +867,7 @@ export const profiles = [
 	},
 	{
 		_id: "68cc3f8eeaf269fc85a5214f",
-		email: "fake+mfpoggqfe9781380a4c4@kutumba.ru",
+		email: "fake+mfpoggqfe9781380a4c4@blow.ru",
 		firstName: "Кристина",
 		sex: "female",
 		city: "moscow",
@@ -913,7 +913,7 @@ export const profiles = [
 	},
 	{
 		_id: "68cc3f55eaf269fc85a51cab",
-		email: "fake+mfpof8u233fc50b5bfc5@kutumba.ru",
+		email: "fake+mfpof8u233fc50b5bfc5@blow.ru",
 		firstName: "Ксения",
 		sex: "female",
 		city: "moscow",
@@ -960,7 +960,7 @@ export const profiles = [
 	},
 	{
 		_id: "68cc3f01eaf269fc85a5133a",
-		email: "fake+mfpodfy42e4c999470af@kutumba.ru",
+		email: "fake+mfpodfy42e4c999470af@blow.ru",
 		firstName: "Аделина",
 		sex: "female",
 		city: "moscow",

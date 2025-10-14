@@ -59,10 +59,10 @@ services:
       - backend
     command: >-
       /bin/sh -c "\
-      if [ ! -f /etc/letsencrypt/live/kutumba.ru/fullchain.pem ]; then \
+      if [ ! -f /etc/letsencrypt/live/blow.ru/fullchain.pem ]; then \
         echo 'No TLS certificate found, copying development self-signed bundle.'; \
-        mkdir -p /etc/letsencrypt/live/kutumba.ru; \
-        cp /etc/nginx/dev-certs/* /etc/letsencrypt/live/kutumba.ru/; \
+        mkdir -p /etc/letsencrypt/live/blow.ru; \
+        cp /etc/nginx/dev-certs/* /etc/letsencrypt/live/blow.ru/; \
       fi; \
       nginx -g 'daemon off;'"
     ports:

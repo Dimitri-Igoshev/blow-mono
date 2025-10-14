@@ -42,7 +42,7 @@ export const FakeMessage: FC<FakeMessageProps> = ({ chat }) => {
               name={notFake?.firstName}
               src={`${ENV.MEDIA_URL}/${notFake?.photos[0]?.url}`}
               onClick={() =>
-                window.open(`https://kutumba.ru/account/search/${notFake?._id}`)
+                window.open(`https://blow.ru/account/search/${notFake?._id}`)
               }
             />
           </div>
@@ -70,7 +70,7 @@ export const FakeMessage: FC<FakeMessageProps> = ({ chat }) => {
             size="md"
             src={`${ENV.MEDIA_URL}/${fake?.photos[0]?.url}`}
             onClick={() =>
-              window.open(`https://kutumba.ru/account/search/${fake?._id}`)
+              window.open(`https://blow.ru/account/search/${fake?._id}`)
             }
           />
 

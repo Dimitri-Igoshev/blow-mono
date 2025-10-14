@@ -27,7 +27,7 @@ export interface User {
 
 const baseQuery = fetchBaseQuery({
   // baseUrl: 'https://core.igoshev.de/api',
-  // baseUrl: 'https://api.kutumba.ru/api',
+  // baseUrl: 'https://api.blow.ru/api',
   baseUrl: ENV.API_URL,
   prepareHeaders: (headers) => {
     const token = authStorage.getToken();

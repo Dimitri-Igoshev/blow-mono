@@ -7,14 +7,14 @@ export const metadata: Metadata = {
   description:
     "Скрипты разговора о поддержке без неловкости: обучение, культурные мероприятия, путешествия, наставничество. Прозрачные договорённости, 18+.",
   alternates: {
-    canonical: "https://kutumba.ru/kak-obsuzhdat-podderzhku-vzroslye-otnosheniya",
+    canonical: "https://blow.ru/kak-obsuzhdat-podderzhku-vzroslye-otnosheniya",
   },
   openGraph: {
     type: "article",
     title: "Как обсуждать поддержку: подарки, обучение, менторство",
     description:
       "Этичные формулировки и сценарии обсуждения поддержки в формате win-win.",
-    url: "https://kutumba.ru/kak-obsuzhdat-podderzhku-vzroslye-otnosheniya",
+    url: "https://blow.ru/kak-obsuzhdat-podderzhku-vzroslye-otnosheniya",
   },
   twitter: {
     card: "summary",
