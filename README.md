@@ -259,3 +259,5 @@ docker system prune -a
 docker compose restart nginx
 
 docker compose exec backend bash
+
+ctrl + D (выйти)
