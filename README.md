@@ -275,4 +275,17 @@ docker compose build --no-cache \
 && docker container prune -f \
 && docker network prune -f
 
-
+Как восстановить (памятка)
+Восстановить uploads
+# распаковать в нужную папку (осторожно перезапишет одноимённые файлы)
+sudo tar -C /opt/blow-mono/blow-be/uploads -xzf /var/backups/blow/2025-10-14_1200/uploads.tar.gz
+Восстановить Mongo (в контейнер mongo)
+cat /var/backups/blow/2025-10-14_1200/mongo.archive.gz \
+| docker compose -f /opt/blow-mono/docker-compose.yml exec -T mongo sh -lc '
+    mongorestore \
+      -u "$MONGO_INITDB_ROOT_USERNAME" \
+      -p "$MONGO_INITDB_ROOT_PASSWORD" \
+      --authenticationDatabase admin \
+      --archive --gzip --drop
+  '
+Ключ --drop удалит коллекции перед восстановлением — убери его, если не нужно.

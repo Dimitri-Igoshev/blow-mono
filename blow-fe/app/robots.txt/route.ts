@@ -50,6 +50,7 @@ export async function GET() {
     'Clean-param: utm_source&utm_medium&utm_campaign&utm_term&utm_content /',
     'Clean-param: gclid&fbclid&yclid /',
     'Clean-param: from&ref /',
+    'Clean-param: etext /',    
 
     '',
 
