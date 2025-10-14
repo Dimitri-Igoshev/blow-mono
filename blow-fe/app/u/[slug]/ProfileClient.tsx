@@ -266,7 +266,7 @@ const ProfileClient: FC<ProfileClientProps> = ({ profile, mediaBase }) => {
                   radius="none"
                   src={
                     currentImage || user?.photos?.[0]?.url
-                      ? `${mediaUrl}/${currentImage || user?.photos?.[0]?.url}`
+                      ? `${mediaUrl}${currentImage || user?.photos?.[0]?.url}`
                       : user?.sex === "male"
                       ? "/men2.png"
                       : "/woman2.png"
@@ -293,7 +293,7 @@ const ProfileClient: FC<ProfileClientProps> = ({ profile, mediaBase }) => {
                         radius="none"
                         src={
                           item?.url
-                            ? `${mediaUrl}/${item.url}`
+                            ? `${mediaUrl}${item.url}`
                             : user?.sex === "male"
                             ? "/men2.png"
                             : "/woman2.png"
