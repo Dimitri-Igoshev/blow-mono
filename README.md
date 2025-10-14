@@ -268,11 +268,11 @@ docker compose up -d
 
 docker compose up --build -d
 
-Правильный билд
-
 docker compose build --no-cache \
 && docker compose up -d \
 && docker image prune -af \
 && docker builder prune -af \
 && docker container prune -f \
 && docker network prune -f
+
+
