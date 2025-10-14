@@ -19,7 +19,7 @@ Dockerfile # в каждом приложении
 ## Предварительные требования
 
 * Ubuntu 22.04/24.04 (инструкции ниже протестированы на Timeweb Cloud).
-* Настроенные DNS-записи A/AAAA для доменов `kutumba.ru`, `api.kutumba.ru`, `admin.kutumba.ru`, указывающие на IP сервера.
+* Настроенные DNS-записи A/AAAA для доменов `blow.ru`, `api.blow.ru`, `admin.blow.ru`, указывающие на IP сервера.
 * Открытые порты 22, 80 и 443 в настройках фаервола/безопасности провайдера.
 * Аккаунт Docker Hub (для авторизации при сборке образов и избежания ограничения по анонимным скачиваниям).
 
@@ -90,7 +90,7 @@ git clone https://github.com/<your-org>/blow-mono.git .
    ```
    Отредактируйте каждый файл, указав реальные значения (SMTP учётные данные, ключи YooMoney, адреса доменов и т.д.). Для фронтенда обязательно пропишите `API_INTERNAL_BASE=http://backend:4000/api`, чтобы контейнер Next.js направлял серверные запросы напрямую во внутренний сервис `backend` и не упирался в TLS-сертификаты Nginx. Для production-значений можно создать файлы вида `backend.env.local` и прописать их в `.gitignore`, либо править существующие `.env` непосредственно на сервере.
 
-3. При необходимости измените `deploy/nginx/conf.d/app.conf`, если домены отличаются от приведённых (`kutumba.ru`, `api.kutumba.ru`, `admin.kutumba.ru`).
+3. При необходимости измените `deploy/nginx/conf.d/app.conf`, если домены отличаются от приведённых (`blow.ru`, `api.blow.ru`, `admin.blow.ru`).
 
 ## Сборка и запуск
 
@@ -125,7 +125,7 @@ docker compose ps
 ./deploy/certbot/issue.sh
 ```
 
-Скрипт удаляет временные самоподписанные файлы в томе `certbot_certs`, если они ещё не были заменены реальными сертификатами Let’s Encrypt. Без этого шага Certbot может завершиться ошибкой `live directory exists for kutumba.ru`, потому что директория `/etc/letsencrypt/live/kutumba.ru` уже создана контейнером Nginx для заглушечных сертификатов.
+Скрипт удаляет временные самоподписанные файлы в томе `certbot_certs`, если они ещё не были заменены реальными сертификатами Let’s Encrypt. Без этого шага Certbot может завершиться ошибкой `live directory exists for blow.ru`, потому что директория `/etc/letsencrypt/live/blow.ru` уже создана контейнером Nginx для заглушечных сертификатов.
 
 После успешного получения сертификата перезапустите Nginx, чтобы он подхватил файлы:
 
@@ -200,7 +200,7 @@ docker compose up -d
 export LOCAL_MONGO_URI='mongodb://root:example@127.0.0.1:27017/blow?authSource=admin'
 export MONGO_DB_NAME='blow'
 
-docker exec -it 782c6cb73cb3 bash -lc 'echo "Pinging local mongo..."; mongosh "mongodb://root:example@mongo:27017/blow?authSource=admin" --eval "db.runCommand({ping:1})"; echo "Running migrate"; npm run db:sync'
+docker exec -it 37d24cca69c1 bash -lc 'echo "Pinging local mongo..."; mongosh "mongodb://root:example@mongo:27017/blow?authSource=admin" --eval "db.runCommand({ping:1})"; echo "Running migrate"; npm run db:sync'
 
 
 3. Выполните скрипт из каталога бэкенда:
@@ -265,3 +265,5 @@ ctrl + D (выйти)
 docker compose down --remove-orphans
 docker compose build --no-cache
 docker compose up -d
+
+docker compose up --build -d

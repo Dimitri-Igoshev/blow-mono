@@ -1,7 +1,7 @@
 import { config } from "@/common/env";
 
 const BASE = config.API_URL;               // API base
-const SITE = "https://kutumba.ru";            // домен сайта для абсолютных URL
+const SITE = "https://blow.ru";            // домен сайта для абсолютных URL
 const PER_FILE = 45000;                    // запас < 50k на файл
 
 export type PublicProfile = {

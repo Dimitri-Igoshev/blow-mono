@@ -7,14 +7,14 @@ export const metadata: Metadata = {
   description:
     "Готовые сценарии первых сообщений, структура диалога, анти-фразы и как мягко перейти к офлайн-встрече. Формат взрослых отношений win-win, без интим-услуг.",
   alternates: {
-    canonical: "https://kutumba.ru/perepiska-scenarii",
+    canonical: "https://blow.ru/perepiska-scenarii",
   },
   openGraph: {
     type: "article",
     title: "Переписка: первые сообщения и переход к встрече",
     description:
       "Шаблоны первых сообщений, корректная коммуникация и безопасный переход к встрече.",
-    url: "https://kutumba.ru/perepiska-scenarii",
+    url: "https://blow.ru/perepiska-scenarii",
   },
   twitter: {
     card: "summary",

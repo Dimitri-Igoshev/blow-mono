@@ -151,13 +151,13 @@ export const ServiceCard: FC<ServiceCardProps> = ({
 						<p className="flex items-center gap-2">
 							Почта
 							<a
-								href="mailto:admin@kutumba.ru"
+								href="mailto:admin@blow.ru"
 								className="flex items-center gap-1.5 bg-foreground-100 p-2.5 rounded-full hover:bg-primary hover:text-white"
 							>
 								<MdEmail />
 							</a>
-							<a href="mailto:admin@kutumba.ru" className="hover:text-primary">
-								admin@kutumba.ru
+							<a href="mailto:admin@blow.ru" className="hover:text-primary">
+								admin@blow.ru
 							</a>
 						</p>
 					</div>

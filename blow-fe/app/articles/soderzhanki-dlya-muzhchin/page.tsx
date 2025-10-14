@@ -6,14 +6,14 @@ export const metadata: Metadata = {
   description:
     "Какие выгоды даёт формат «содержанка—спонсор» для мужчин: прозрачные ожидания, экономия времени, совместные активности, имидж и безопасность. 18+.",
   alternates: {
-    canonical: "https://kutumba.ru/soderzhanki-vygoda-dlya-muzhchin",
+    canonical: "https://blow.ru/soderzhanki-vygoda-dlya-muzhchin",
   },
   openGraph: {
     type: "article",
     title: "Содержанки: выгода для мужчин и как устроен формат win-win",
     description:
       "Прозрачные ожидания, экономия времени, совместные активности, имидж и безопасность. 18+.",
-    url: "https://kutumba.ru/soderzhanki-vygoda-dlya-muzhchin",
+    url: "https://blow.ru/soderzhanki-vygoda-dlya-muzhchin",
   },
   twitter: {
     card: "summary",

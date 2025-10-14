@@ -2,7 +2,7 @@
 set -euo pipefail
 
 COMPOSE_CMD="${COMPOSE_CMD:-docker compose}"
-CERT_NAME="kutumba.ru"
+CERT_NAME="blow.ru"
 
 # shellcheck disable=SC2016
 ${COMPOSE_CMD} run --rm certbot /bin/sh -c '
@@ -20,9 +20,9 @@ ${COMPOSE_CMD} run --rm certbot /bin/sh -c '
 
   certbot certonly \
     --webroot -w /var/www/certbot \
-    -d kutumba.ru \
-    -d www.kutumba.ru \
-    -d api.kutumba.ru \
-    -d admin.kutumba.ru \
+    -d blow.ru \
+    -d www.blow.ru \
+    -d api.blow.ru \
+    -d admin.blow.ru \
     --cert-name "$CERT_NAME"
 '
