@@ -254,3 +254,8 @@ docker compose down
 
 docker compose down --remove-orphans && docker system prune -af && docker builder prune -af && docker compose build --no-cache && docker compose up -d
 
+docker system prune -a
+
+docker compose restart nginx
+
+docker compose exec backend bash
