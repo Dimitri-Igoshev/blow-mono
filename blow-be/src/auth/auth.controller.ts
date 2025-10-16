@@ -64,6 +64,7 @@ export class AuthController {
     @Body() dto: TelegramAuthDto,
     @Headers('authorization') authorization?: string,
   ) {
+    console.log(1, dto, authorization);
     let attachToUserId: string | undefined;
 
     if (authorization?.startsWith('Bearer ')) {
@@ -77,6 +78,7 @@ export class AuthController {
       }
     }
 
+    console.log(2, dto, attachToUserId);
     return this.authTelegram.authenticate(dto, attachToUserId);
   }
 }

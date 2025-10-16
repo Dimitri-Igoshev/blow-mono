@@ -24,6 +24,7 @@ export default function TelegramLoginButton() {
 		// Один раз задаём callback
 		if (!callbackSetRef.current) {
 			window.onTelegramAuth = async (user: any) => {
+        console.log('user', user)
 				await authTelegram(user)
 					.unwrap()
 					.then((res) => {
