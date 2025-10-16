@@ -18,6 +18,7 @@ import {
   WithdrawalSchema,
 } from 'src/withdrawal/entities/withdrawal.entity';
 import { Sale, SaleSchema } from 'src/sale/entities/sale.entity'
+import { AuthTelegramService } from './auth-telegram.service'
 
 @Module({
   imports: [
@@ -36,6 +37,6 @@ import { Sale, SaleSchema } from 'src/sale/entities/sale.entity'
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, UserService, FileService],
+  providers: [AuthService, UserService, FileService, AuthTelegramService],
 })
 export class AuthModule {}

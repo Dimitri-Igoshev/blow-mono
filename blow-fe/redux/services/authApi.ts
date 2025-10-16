@@ -51,6 +51,13 @@ export const authApi = createApi({
         body,
       }),
     }),
+    telegramAuth: builder.mutation({
+      query: (body) => ({
+        url: '/auth/telegram',
+        method: 'POST',
+        body,
+      }),
+    }),
   }),
 });
 
@@ -60,4 +67,5 @@ export const {
   useConfirmationMutation,
   useRecoveryPasswordMutation,
   useResetPasswordMutation,
+  useTelegramAuthMutation
 } = authApi;

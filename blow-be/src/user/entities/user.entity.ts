@@ -73,11 +73,11 @@ export interface PurchasedContacts {
 
 @Schema({ timestamps: true })
 export class User {
-  @Prop({ required: true, unique: true })
-  email: string;
+  @Prop({ unique: true, sparse: true })
+  email?: string;
 
-  @Prop({ required: true })
-  password: string;
+  @Prop()
+  password?: string;
 
   @Prop()
   firstName: string;
@@ -216,9 +216,19 @@ export class User {
 
   @Prop()
   fromLanding?: boolean;
+
+  @Prop({ unique: true, sparse: true })
+  telegramId?: string; // хранить как string
+
+  @Prop()
+  telegramUsername?: string;
+
+  @Prop()
+  telegramPhotoUrl?: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
 
 UserSchema.index({ slug: 1 }, { unique: true, sparse: true });
 UserSchema.index({ shortId: 1 }, { unique: true, sparse: true });
+UserSchema.index({ telegramId: 1 }, { unique: true, sparse: true });
