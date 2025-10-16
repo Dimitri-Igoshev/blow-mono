@@ -64,5 +64,5 @@ export default function TelegramLoginButton() {
 		};
 	}, [authTelegram, dispatch, router]);
 
-	return <div id="tg-login-container" className="w-full" />;
+	return <div id="tg-login-container" />;
 }

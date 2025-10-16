@@ -53,7 +53,7 @@ export const authApi = createApi({
     }),
     telegramAuth: builder.mutation({
       query: (body) => ({
-        url: '/auth/telegram',
+        url: '/telegram',
         method: 'POST',
         body,
       }),
