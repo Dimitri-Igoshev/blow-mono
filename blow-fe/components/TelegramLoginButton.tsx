@@ -2,10 +2,10 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { useTelegramAuthMutation } from '@/app/store/api';
 import { useRouter } from 'next/navigation';
 import { useDispatch } from 'react-redux';
-import { setToken } from '@/app/store/authSlice';
+import { useTelegramAuthMutation } from '@/redux/services/authApi'
+import { setToken } from '@/redux/features/authSlice'
 
 declare global {
   interface Window {
