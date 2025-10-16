@@ -152,8 +152,8 @@ export const LoginModal: FC<LoginModalProps> = ({
 									Войти
 								</Button>
 								
-								<div className="mt-3 w-full flex">
-								<TelegramLoginButton />
+								<div className="mt-9 w-full flex justify-center">
+									<TelegramLoginButton />
 								</div>
 
 								<div className="flex items-center justify-between w-full gap-4 text-xs mt-2 -mb-3">
