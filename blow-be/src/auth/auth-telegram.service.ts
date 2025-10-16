@@ -5,7 +5,8 @@ import * as crypto from 'crypto';
 import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { User, UserDocument, UserRole, UserStatus } from 'src/user/entities/user.schema';
+import { User, UserRole, UserStatus, type UserDocument } from 'src/user/entities/user.entity'
+
 
 @Injectable()
 export class AuthTelegramService {
