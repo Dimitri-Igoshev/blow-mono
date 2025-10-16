@@ -71,8 +71,9 @@ export class AuthTelegramService {
 
       const linked = await this.userModel.findById(attachToUserId).lean();
       const payload = { sub: linked!._id.toString(), role: linked!.role, status: linked!.status };
-      const access_token = await this.jwtService.signAsync(payload);
-      return { access_token, isNew: false, userId: linked!._id };
+      const accessToken = await this.jwtService.signAsync(payload);
+
+      return { accessToken, isNew: false, userId: linked!._id };
     }
 
     // обычный вход/регистрация
@@ -97,7 +98,7 @@ export class AuthTelegramService {
     }
 
     const payload = { sub: user._id.toString(), role: user.role, status: user.status };
-    const access_token = await this.jwtService.signAsync(payload);
-    return { access_token, isNew, userId: user._id };
+    const accessToken = await this.jwtService.signAsync(payload);
+    return { accessToken, isNew, userId: user._id };
   }
 }

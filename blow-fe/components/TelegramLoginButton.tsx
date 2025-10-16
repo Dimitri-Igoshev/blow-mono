@@ -24,13 +24,13 @@ export default function TelegramLoginButton() {
 		// Один раз задаём callback
 		if (!callbackSetRef.current) {
 			window.onTelegramAuth = async (user: any) => {
-        console.log('user', user)
+				console.log("user", user);
 				await authTelegram(user)
 					.unwrap()
 					.then((res) => {
 						console.log(res);
-						dispatch(setToken(res.access_token));
-						router.replace("/");
+						localStorage.setItem("access-token", res.accessToken);
+						window.location.reload();
 					})
 					.catch((err) => console.log(err));
 			};
