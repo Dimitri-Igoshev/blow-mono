@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef, useCallback, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { useTelegramAuthMutation } from "@/redux/services/authApi";
@@ -47,6 +47,8 @@ export default function TelegramLoginButton() {
 		};
 	}, []);
 
+  const [user, setUser] = useState()
+
 	const handleClick = useCallback(() => {
 		const tryAuth = () => {
 			if (!window.Telegram?.Login?.auth) {
@@ -65,7 +67,7 @@ export default function TelegramLoginButton() {
 							localStorage.setItem("access-token", token);
 							dispatch(setToken(token));
 						}
-						router.replace("/"); // в корень
+						window.location.reload(); // в корень
 					} catch (e) {
 						console.error("Telegram auth failed", e);
 						alert("Не удалось войти через Telegram");
