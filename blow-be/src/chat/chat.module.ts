@@ -5,7 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Message, MessageSchema } from './entities/message.entity';
 import { Chat, ChatSchema } from './entities/chat.entity';
 import { User, UserSchema } from 'src/user/entities/user.entity'
-import { TelegramModule } from 'src/telegram/telegram.module'
+// import { TelegramModule } from 'src/telegram/telegram.module'
 
 @Module({
   imports: [
@@ -14,7 +14,7 @@ import { TelegramModule } from 'src/telegram/telegram.module'
       { name: Chat.name, schema: ChatSchema },
       { name: User.name, schema: UserSchema },
     ]),
-    TelegramModule,
+    // TelegramModule,
   ],
   controllers: [ChatController],
   providers: [ChatService],
