@@ -293,3 +293,22 @@ cat /var/backups/blow/2025-10-14_1200/mongo.archive.gz \
 scp ./blow-2025-10-15_1200.tar.gz ssh root@5.23.52.202:/var/backups/blow
 
 docker compose logs -f --tail=200 backend
+
+docker compose exec mongo mongosh
+
+use blow;
+
+// 1) убрать старый уникальный индекс по email
+try { db.users.dropIndex("email_1"); } catch(e) { print(e); }
+
+// 2) подчистить документы с пустыми значениями
+db.users.updateMany({ email: null }, { $unset: { email: 1 } });
+db.users.updateMany({ email: ""   }, { $unset: { email: 1 } });
+
+// 3) создать корректный частичный уникальный индекс
+db.users.createIndex({ email: 1 }, { unique: true, sparse: true, partialFilterExpression: { email: { $type: "string" } } });
+
+// 4) проверить
+db.users.getIndexes();
+
+db.auth("root", "root_pass")

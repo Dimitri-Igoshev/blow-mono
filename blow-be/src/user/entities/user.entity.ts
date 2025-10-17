@@ -73,14 +73,7 @@ export interface PurchasedContacts {
 
 @Schema({ timestamps: true })
 export class User {
-  @Prop({
-    type: String,
-    unique: true,
-    sparse: true,
-    index: true,
-    // индекс сработает только если email — строка (исключаем null/undefined)
-    partialFilterExpression: { email: { $type: 'string' } },
-  })
+  @Prop({ type: String, index: true }) // БЕЗ unique/sparse здесь
   email?: string;
 
   @Prop()
@@ -238,4 +231,25 @@ export const UserSchema = SchemaFactory.createForClass(User);
 
 UserSchema.index({ slug: 1 }, { unique: true, sparse: true });
 UserSchema.index({ shortId: 1 }, { unique: true, sparse: true });
-UserSchema.index({ telegramId: 1 }, { unique: true, sparse: true });
+// UserSchema.index({ telegramId: 1 }, { unique: true, sparse: true });
+
+// Индексы: email уникален ТОЛЬКО когда это строка (не null/undefined)
+// ВНИМАНИЕ: БЕЗ sparse!
+UserSchema.index(
+  { email: 1 },
+  {
+    name: 'uniq_email_when_string',
+    unique: true,
+    partialFilterExpression: { email: { $type: 'string' } },
+  },
+);
+
+// (опционально) аналогично для telegramId, если надо
+UserSchema.index(
+  { telegramId: 1 },
+  {
+    name: 'uniq_telegramId_when_string',
+    unique: true,
+    partialFilterExpression: { telegramId: { $type: 'string' } },
+  },
+);
