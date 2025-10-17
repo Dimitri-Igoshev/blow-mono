@@ -198,11 +198,7 @@ export class ChatService {
     // Уведомления телеграм
     await this.tg.sendToUserId(
       recipient?._id,
-      `Новое сообщение от ${sender.firstName}: ${
-        isPremium(recipient) || recipient?.sex === 'female'
-          ? savedMessage?.text
-          : sanitizeContactsClient(savedMessage?.text).text
-      }`,
+      `Новое сообщение от пользователя ${sender.firstName}`,
       {
         parse_mode: 'HTML',
         disable_web_page_preview: true,
