@@ -37,7 +37,8 @@ export class AuthTelegramService {
   }
 
   private verifySignature(dto: TelegramAuthDto) {
-    const dataCheckString = this.buildDataCheckString(dto);
+    const {type, newUser, ...rest} = dto
+    const dataCheckString = this.buildDataCheckString(rest);
     const secretKey = crypto
       .createHash('sha256')
       .update(this.botToken)
