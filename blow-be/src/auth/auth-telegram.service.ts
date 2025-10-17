@@ -1,8 +1,9 @@
-// auth/auth-telegram.service.ts (патч ключевых мест)
+// auth/auth-telegram.service.ts
 import {
   Injectable,
   UnauthorizedException,
   ConflictException,
+  NotFoundException,
 } from '@nestjs/common';
 import { TelegramAuthDto } from './dto/telegram-auth.dto';
 import * as crypto from 'crypto';
@@ -38,17 +39,10 @@ export class AuthTelegramService {
   }
 
   private verifySignature(dto: TelegramAuthDto) {
-    // type/newUser не участвуют в подписи
     const { type, newUser, ...rest } = dto as any;
     const dataCheckString = this.buildDataCheckString(rest as TelegramAuthDto);
-    const secretKey = crypto
-      .createHash('sha256')
-      .update(this.botToken)
-      .digest();
-    const hmac = crypto
-      .createHmac('sha256', secretKey)
-      .update(dataCheckString)
-      .digest('hex');
+    const secretKey = crypto.createHash('sha256').update(this.botToken).digest();
+    const hmac = crypto.createHmac('sha256', secretKey).update(dataCheckString).digest('hex');
     return hmac === (dto as any).hash;
   }
 
@@ -57,29 +51,18 @@ export class AuthTelegramService {
     return now - authDate <= this.maxAgeSec;
   }
 
-  // ... verify helpers без изменений ...
-
-  /** Пытаемся выполнить fn в транзакции; если транзакции недоступны — возвращаем false (фоллбек наружу) */
+  /** Пытаемся выполнить fn в транзакции; если транзакции недоступны — возвращаем false (фоллбек без транзакции) */
   private async tryWithTransaction(
     fn: (session: ClientSession) => Promise<void>,
   ): Promise<boolean> {
     let session: ClientSession | null = null;
     try {
       session = await this.conn.startSession();
-      await session.withTransaction(
-        async () => {
-          await fn(session!);
-        },
-        { writeConcern: { w: 'majority' } },
-      );
+      await session.withTransaction(async () => { await fn(session!); }, { writeConcern: { w: 'majority' } });
       return true;
     } catch (e: any) {
-      // code 20 или сообщение про Transaction numbers... — нет реплика-сета → фоллбек
-      if (
-        e?.code === 20 ||
-        /Transaction numbers are only allowed/i.test(String(e?.message))
-      ) {
-        return false;
+      if (e?.code === 20 || /Transaction numbers are only allowed/i.test(String(e?.message))) {
+        return false; // нет реплика-сета
       }
       throw e;
     } finally {
@@ -88,88 +71,89 @@ export class AuthTelegramService {
   }
 
   async authenticate(dto: TelegramAuthDto, attachToUserId?: string) {
-    if (!this.verifySignature(dto))
-      throw new UnauthorizedException('Invalid Telegram signature');
-    if (!this.verifyAuthDate((dto as any).auth_date))
-      throw new UnauthorizedException('Telegram auth data expired');
+    if (!this.verifySignature(dto)) throw new UnauthorizedException('Invalid Telegram signature');
+    if (!this.verifyAuthDate((dto as any).auth_date)) throw new UnauthorizedException('Telegram auth data expired');
 
     const tgId = String((dto as any).id);
+    const flow = (dto as any).type as 'login' | 'registration' | 'add' | undefined;
 
-    // ====== ATTACH (привязка при наличии Authorization) ======
+    // ====== ATTACH (привязка по Authorization) ======
     if (attachToUserId) {
-      // 1) попытка в транзакции
-      const doneInTxn = await this.tryWithTransaction(async (session) => {
-        await this.userModel.updateMany(
-          { telegramId: tgId, _id: { $ne: attachToUserId } },
-          {
-            $unset: { telegramId: 1, telegramUsername: 1, telegramPhotoUrl: 1 },
-          },
-          { session },
-        );
-        const res = await this.userModel.updateOne(
-          { _id: attachToUserId },
-          {
-            $set: {
-              telegramId: tgId,
-              telegramUsername: (dto as any).username,
-              telegramPhotoUrl: (dto as any).photo_url,
-            },
-          },
-          { session },
-        );
-        if (res.matchedCount === 0)
-          throw new ConflictException('User not found for link');
-      });
-
-      // 2) фоллбек без транзакции
-      if (!doneInTxn) {
-        await this.userModel.updateMany(
-          { telegramId: tgId, _id: { $ne: attachToUserId } },
-          {
-            $unset: { telegramId: 1, telegramUsername: 1, telegramPhotoUrl: 1 },
-          },
-        );
-        const res = await this.userModel.updateOne(
-          { _id: attachToUserId },
-          {
-            $set: {
-              telegramId: tgId,
-              telegramUsername: (dto as any).username,
-              telegramPhotoUrl: (dto as any).photo_url,
-            },
-          },
-        );
-        if (res.matchedCount === 0)
-          throw new ConflictException('User not found for link');
-      }
-
-      const linked = await this.userModel
-        .findById(attachToUserId)
+      // (3) Если этот telegramId уже привязан к другому пользователю — конфликт
+      const existingWithTg = await this.userModel
+        .findOne({ telegramId: tgId })
         .read('primary')
         .lean();
-      const payload = {
-        sub: linked!._id.toString(),
-        role: linked!.role,
-        status: linked!.status,
-      };
+
+      if (existingWithTg && existingWithTg._id.toString() !== attachToUserId) {
+        throw new ConflictException('Нельзя привязать: этот Telegram уже связан с другим пользователем');
+      }
+
+      // Пишем (с транзакцией или без)
+      const doneInTxn = await this.tryWithTransaction(async (session) => {
+        const res = await this.userModel.updateOne(
+          { _id: attachToUserId },
+          {
+            $set: {
+              telegramId: tgId,
+              telegramUsername: (dto as any).username,
+              telegramPhotoUrl: (dto as any).photo_url,
+            },
+          },
+          { session },
+        );
+        if (res.matchedCount === 0) {
+          throw new NotFoundException('User not found for link');
+        }
+      });
+
+      if (!doneInTxn) {
+        const res = await this.userModel.updateOne(
+          { _id: attachToUserId },
+          {
+            $set: {
+              telegramId: tgId,
+              telegramUsername: (dto as any).username,
+              telegramPhotoUrl: (dto as any).photo_url,
+            },
+          },
+        );
+        if (res.matchedCount === 0) throw new NotFoundException('User not found for link');
+      }
+
+      const linked = await this.userModel.findById(attachToUserId).read('primary').lean();
+      const payload = { sub: linked!._id.toString(), role: linked!.role, status: linked!.status };
       const accessToken = await this.jwtService.signAsync(payload);
       return { accessToken, isNew: false, userId: linked!._id };
     }
 
-    // ====== LOGIN / REGISTRATION / ADD ======
-    let user = await this.userModel
-      .findOne({ telegramId: tgId })
-      .read('primary')
-      .exec();
-    if ((dto as any).type === 'login' && !user)
-      return { error: 'User not found' };
+    // ====== LOGIN / REGISTRATION / ADD (без Authorization) ======
+    let user = await this.userModel.findOne({ telegramId: tgId }).read('primary').exec();
 
-    if (
-      !user &&
-      ((dto as any).type === 'registration' || (dto as any).type === 'add')
-    ) {
+    // (1) Логин: если не найден — 404
+    if (flow === 'login' && !user) {
+      throw new NotFoundException('Пользователь не найден');
+    }
+
+    // (2) Регистрация: если уже существует — 409
+    if (flow === 'registration' && user) {
+      throw new ConflictException('Пользователь уже существует');
+    }
+
+    // ADD: привязка к конкретному _id из dto.newUser — конфликт, если tgId у другого
+    if (flow === 'add') {
+      const targetId = (dto as any).newUser?._id;
+      if (!targetId) throw new UnauthorizedException('Invalid target for add');
+
+      if (user && user._id.toString() !== String(targetId)) {
+        throw new ConflictException('Нельзя привязать: этот Telegram уже связан с другим пользователем');
+      }
+    }
+
+    // Создание/обновление при registration | add
+    if (!user && (flow === 'registration' || flow === 'add')) {
       const didTxn = await this.tryWithTransaction(async (session) => {
-        if ((dto as any).type === 'registration') {
+        if (flow === 'registration') {
           const data: any = {
             telegramId: tgId,
             telegramUsername: (dto as any).username,
@@ -183,10 +167,10 @@ export class AuthTelegramService {
           const doc = new this.userModel(data);
           await doc.save({ session });
           user = doc;
-        }
-        if ((dto as any).type === 'add') {
+        } else if (flow === 'add') {
+          const targetId = (dto as any).newUser?._id;
           const updated = await this.userModel.findOneAndUpdate(
-            { _id: (dto as any).newUser?._id },
+            { _id: targetId },
             {
               $set: {
                 telegramId: tgId,
@@ -196,13 +180,13 @@ export class AuthTelegramService {
             },
             { new: true, session },
           );
-          user = updated ?? user;
+          if (!updated) throw new NotFoundException('Target user not found for add');
+          user = updated;
         }
       });
 
       if (!didTxn) {
-        // фоллбек без транзакции
-        if ((dto as any).type === 'registration') {
+        if (flow === 'registration') {
           const data: any = {
             telegramId: tgId,
             telegramUsername: (dto as any).username,
@@ -214,41 +198,36 @@ export class AuthTelegramService {
             ...(dto as any).newUser,
           };
           user = await this.userModel.create(data);
-        }
-        if ((dto as any).type === 'add') {
-          user = await this.userModel
-            .findOneAndUpdate(
-              { _id: (dto as any).newUser?._id },
-              {
-                $set: {
-                  telegramId: tgId,
-                  telegramUsername: (dto as any).username,
-                  telegramPhotoUrl: (dto as any).photo_url,
-                },
+        } else if (flow === 'add') {
+          const targetId = (dto as any).newUser?._id;
+          user = await this.userModel.findOneAndUpdate(
+            { _id: targetId },
+            {
+              $set: {
+                telegramId: tgId,
+                telegramUsername: (dto as any).username,
+                telegramPhotoUrl: (dto as any).photo_url,
               },
-              { new: true },
-            )
-            .exec();
+            },
+            { new: true },
+          ).exec();
+          if (!user) throw new NotFoundException('Target user not found for add');
         }
-      }
-
-      if (!user) {
-        user = await this.userModel
-          .findOne({ telegramId: tgId })
-          .read('primary')
-          .exec();
       }
     }
 
-    if (!user) return { error: 'User not found' };
+    // к этому моменту:
+    // - login: user найден и мы выдаём токен
+    // - registration: user только что создан
+    // - add: user обновлён/прочитан
+    if (!user) {
+      // страхующий кейс (например, flow не указан)
+      throw new NotFoundException('Пользователь не найден');
+    }
 
-    const payload = {
-      sub: user._id.toString(),
-      role: user.role,
-      status: user.status,
-    };
+    const payload = { sub: user._id.toString(), role: user.role, status: user.status };
     const accessToken = await this.jwtService.signAsync(payload);
-    const isNew = (dto as any).type === 'registration';
+    const isNew = flow === 'registration';
     return { accessToken, isNew, userId: user._id };
   }
 }
