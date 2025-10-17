@@ -12,11 +12,11 @@ export interface SendOptions {
 }
 
 @Injectable()
-export class TelegramMessengerService {
+export class TelegramService {
   // лучше вынести в env: process.env.TELEGRAM_BOT_TOKEN
   private readonly botToken = '8254626529:AAHYHbwlfVoFhdRW9awv_LtFQv260yynbsA';
   private readonly apiBase = `https://api.telegram.org/bot${this.botToken}`;
-  private readonly logger = new Logger(TelegramMessengerService.name);
+  private readonly logger = new Logger(TelegramService.name);
 
   constructor(
     private readonly http: HttpService,

@@ -8,7 +8,7 @@ import { UserStatus } from 'src/user/entities/user.entity';
 import { BadRequestException } from '@nestjs/common';
 import { isPremium } from 'src/common/utils/checkIsActive';
 import { sanitizeContactsClient } from './sanitizeClient';
-import type { TelegramMessengerService } from 'src/telegram/telegram.service';
+import type { TelegramService } from 'src/telegram/telegram.service';
 
 interface MessageNotificationParams {
   recipient: any;
@@ -24,7 +24,7 @@ export class ChatService {
     @InjectModel('Chat') private chatModel: Model<any>,
     @InjectModel('User') private userModel: Model<any>,
     private readonly mailerService: MailerService,
-    private readonly tg: TelegramMessengerService,
+    private readonly tg: TelegramService,
   ) {}
 
   sendNewMessageNotification({

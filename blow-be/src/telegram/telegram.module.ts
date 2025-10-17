@@ -1,15 +1,16 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { HttpModule } from '@nestjs/axios';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from 'src/user/entities/user.entity';
-import { TelegramMessengerService } from './telegram.service';
+import { TelegramService } from './telegram.service';
 
+@Global()
 @Module({
   imports: [
     HttpModule,
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
   ],
-  providers: [TelegramMessengerService],
-  exports: [TelegramMessengerService],
+  providers: [TelegramService],
+  exports: [TelegramService],
 })
-export class TelegramMessengerModule {}
+export class TelegramModule {}
