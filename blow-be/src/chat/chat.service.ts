@@ -6,8 +6,9 @@ import { MailerService } from '@nestjs-modules/mailer';
 import { format } from 'date-fns';
 import { UserStatus } from 'src/user/entities/user.entity';
 import { BadRequestException } from '@nestjs/common';
-import { isPremium } from 'src/common/utils/checkIsActive'
-import { sanitizeContactsClient } from './sanitizeClient'
+import { isPremium } from 'src/common/utils/checkIsActive';
+import { sanitizeContactsClient } from './sanitizeClient';
+import type { TelegramMessengerService } from 'src/telegram/telegram.service';
 
 interface MessageNotificationParams {
   recipient: any;
@@ -23,6 +24,7 @@ export class ChatService {
     @InjectModel('Chat') private chatModel: Model<any>,
     @InjectModel('User') private userModel: Model<any>,
     private readonly mailerService: MailerService,
+    private readonly tg: TelegramMessengerService,
   ) {}
 
   sendNewMessageNotification({
@@ -185,9 +187,24 @@ export class ChatService {
       sender: {
         firstName: sender?.firstName || 'пользователя Blow',
       },
-      messageText: isPremium(recipient) || recipient?.sex === 'female' ? savedMessage?.text : sanitizeContactsClient(savedMessage?.text).text,
+      messageText:
+        isPremium(recipient) || recipient?.sex === 'female'
+          ? savedMessage?.text
+          : sanitizeContactsClient(savedMessage?.text).text,
       chatLink: `https://blow.ru`,
     });
+
+    // Уведомления телеграм
+    await this.tg.sendToUserId(
+      recipient?._id,
+      isPremium(recipient) || recipient?.sex === 'female'
+        ? savedMessage?.text
+        : sanitizeContactsClient(savedMessage?.text).text,
+      {
+        parse_mode: 'HTML',
+        disable_web_page_preview: true,
+      },
+    );
 
     // 7) вернуть сохранённое сообщение (с корректными датами)
     return savedMessage;
