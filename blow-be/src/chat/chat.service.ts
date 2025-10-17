@@ -8,7 +8,7 @@ import { UserStatus } from 'src/user/entities/user.entity';
 import { BadRequestException } from '@nestjs/common';
 import { isPremium } from 'src/common/utils/checkIsActive';
 import { sanitizeContactsClient } from './sanitizeClient';
-import type { TelegramService } from 'src/telegram/telegram.service';
+// import { TelegramService } from 'src/telegram/telegram.service';
 
 interface MessageNotificationParams {
   recipient: any;
