@@ -26,4 +26,10 @@ export class TelegramAuthDto {
 
   @IsString()
   hash: string;
+
+  @IsString()
+  type?: string;
+
+  @IsString()
+  newUser?: any;
 }

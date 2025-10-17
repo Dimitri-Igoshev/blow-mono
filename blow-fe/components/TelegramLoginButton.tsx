@@ -7,6 +7,8 @@ import { useTelegramAuthMutation } from "@/redux/services/authApi";
 import { setToken } from "@/redux/features/authSlice";
 import { FaTelegramPlane } from "react-icons/fa";
 import { Button } from "@heroui/button";
+import { InfoModal } from "./InfoModal";
+import { useDisclosure } from "@heroui/react";
 
 declare global {
 	interface Window {
@@ -23,11 +25,21 @@ declare global {
 
 const BOT_ID = 8254626529; // число до двоеточия из твоего bot_token
 
-export default function TelegramLoginButton() {
+export default function TelegramLoginButton({
+	login = false,
+	registration = false,
+	newUser,
+}: {
+	login?: boolean;
+	registration?: boolean;
+	newUser?: any;
+}) {
 	const [authTelegram] = useTelegramAuthMutation();
 	const router = useRouter();
 	const dispatch = useDispatch();
 	const scriptLoadedRef = useRef(false);
+
+	const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
 	// грузим telegram-widget.js ОДИН РАЗ, без data-* (чтобы он не вставлял свою кнопку)
 	useEffect(() => {
@@ -47,7 +59,7 @@ export default function TelegramLoginButton() {
 		};
 	}, []);
 
-  const [user, setUser] = useState()
+	const [user, setUser] = useState();
 
 	const handleClick = useCallback(() => {
 		const tryAuth = () => {
@@ -60,14 +72,21 @@ export default function TelegramLoginButton() {
 				{ bot_id: BOT_ID, request_access: "write" },
 				async (data) => {
 					if (!data) return; // пользователь отменил
+					if (login) data.type = "login";
+          if (registration) {
+            data.type = "registration";
+            data.newUser = newUser;
+          }
 					try {
 						const res = await authTelegram(data).unwrap();
 						const token = (res as any).access_token ?? (res as any).accessToken;
 						if (token) {
 							localStorage.setItem("access-token", token);
 							dispatch(setToken(token));
+							window.location.reload();
+						} else {
+							onOpen();
 						}
-						window.location.reload(); // в корень
 					} catch (e) {
 						console.error("Telegram auth failed", e);
 						alert("Не удалось войти через Telegram");
@@ -81,14 +100,24 @@ export default function TelegramLoginButton() {
 
 	// Пример с твоей кнопкой: className="w-full" даёт ширину 100%
 	return (
-		<Button
-			className="w-full"
-			color="primary"
-			radius="full"
-			onPress={handleClick}
-			startContent={<FaTelegramPlane size={20} />}
-		>
-			Войти через Telegram
-		</Button>
+		<>
+			<Button
+				className="w-full"
+				color="primary"
+				radius="full"
+				onPress={handleClick}
+				startContent={<FaTelegramPlane size={20} />}
+			>
+				Войти через Telegram
+			</Button>
+
+			<InfoModal
+				isOpen={isOpen}
+				onOpenChange={onOpenChange}
+				onClose={onOpenChange}
+				title="Ошибка"
+				text="Вы не зарегистрированы на сайте, либо ваш телеграм не добавлен в вашем профиле"
+			/>
+		</>
 	);
 }

@@ -19,6 +19,7 @@ import Loader from "./Loader";
 
 import { useRegisterMutation } from "@/redux/services/authApi";
 import { useUploadMutation } from "@/redux/services/uploadApi";
+import TelegramLoginButton from "./TelegramLoginButton";
 
 type Inputs = {
 	email: string;
@@ -59,8 +60,8 @@ export const EmailModal: FC<EmailModalProps> = ({
 		setIsLoading(true);
 
 		const body: any = {
-			email: data.email.toLowerCase(),
-			password: data.password,
+			email: data?.email?.toLowerCase(),
+			password: data?.password,
 			sex: newUser.men ? "male" : "female",
 			age: newUser.age,
 			city: newUser.city,
@@ -173,6 +174,21 @@ export const EmailModal: FC<EmailModalProps> = ({
 										>
 											Сохранить
 										</Button>
+
+										<div className="mt-5 mb-2 w-full flex justify-between items-center">
+											<TelegramLoginButton
+												registration
+												newUser={{
+													sex: newUser.men ? "male" : "female",
+													age: newUser.age,
+													city: newUser.city,
+													height: newUser.height,
+													weight: newUser.weight,
+													sponsor: newUser.sponsor,
+													firstName: newUser.firstName,
+												}}
+											/>
+										</div>
 
 										<div className="flex items-center justify-between w-full gap-4 text-xs mt-2 -mb-3">
 											<Button

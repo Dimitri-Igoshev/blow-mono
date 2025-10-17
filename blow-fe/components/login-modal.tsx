@@ -152,6 +152,10 @@ export const LoginModal: FC<LoginModalProps> = ({
 									Войти
 								</Button>
 
+								<div className="mt-5 mb-2 w-full flex justify-between items-center">
+									<TelegramLoginButton login />
+								</div>
+
 								<div className="flex items-center justify-between w-full gap-4 text-xs mt-2 -mb-3">
 									<Button
 										className="cursor-pointer hover:text-primary bg-transparent text-xs"
@@ -176,12 +180,6 @@ export const LoginModal: FC<LoginModalProps> = ({
 										Зарегистрироваться?
 									</Button>
 								</div>
-
-								<div className="mt-5 mb-2 w-full flex justify-between items-center">
-									<TelegramLoginButton />
-								</div>
-
-								<p className="text-xs -mb-3">*Если у вас уже есть аккаунт, но телеграм не привязан, то сначала привяжите его в своем профиле и только потом заходите через телеграм. Иначе вы создадите новый аккаунт. *Если аккаунта нет, пройдите регистрацию, укажите пол, город, возраст и пр. для удобного поиска.</p>
 							</div>
 						</ModalFooter>
 					</form>
