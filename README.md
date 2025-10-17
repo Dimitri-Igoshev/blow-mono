@@ -291,3 +291,5 @@ cat /var/backups/blow/2025-10-14_1200/mongo.archive.gz \
 Ключ --drop удалит коллекции перед восстановлением — убери его, если не нужно.
 
 scp ./blow-2025-10-15_1200.tar.gz ssh root@5.23.52.202:/var/backups/blow
+
+docker compose logs -f --tail=200 backend
