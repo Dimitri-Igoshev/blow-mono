@@ -33,6 +33,7 @@ export class ChatService {
     messageText,
     chatLink,
   }: MessageNotificationParams) {
+    if (!recipient?.email) return
     const formattedDate = format(new Date(Date.now()), "dd MM yyyy 'в' HH:mm");
 
     return this.mailerService.sendMail({
