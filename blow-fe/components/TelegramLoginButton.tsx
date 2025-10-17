@@ -28,10 +28,12 @@ const BOT_ID = 8254626529; // число до двоеточия из твоег
 export default function TelegramLoginButton({
 	login = false,
 	registration = false,
+	add = false,
 	newUser,
 }: {
 	login?: boolean;
 	registration?: boolean;
+	add?: boolean;
 	newUser?: any;
 }) {
 	const [authTelegram] = useTelegramAuthMutation();
@@ -107,7 +109,7 @@ export default function TelegramLoginButton({
 				onPress={handleClick}
 				startContent={<FaTelegramPlane size={20} />}
 			>
-				Войти через Telegram
+				{add ? "Добавить Telegram" : "Войти через Telegram"}
 			</Button>
 
 			<InfoModal

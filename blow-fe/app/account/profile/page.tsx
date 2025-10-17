@@ -26,6 +26,7 @@ import { RAISE_ID } from "@/helper/checkIsActive";
 import { InfoModal } from "@/components/InfoModal";
 import { ConfirmModal } from "@/components/ConfirmModal";
 import { BlowLoader } from "@/components/BlowLoader";
+import TelegramLoginButton from "@/components/TelegramLoginButton";
 
 const VoiceRecorder = dynamic(() => import("@/components/VoiceRecoder"), {
 	ssr: false,
@@ -119,18 +120,18 @@ const AccountProfilePage = () => {
 			.catch((err) => console.log(err));
 	};
 
-        const handlePlay = () => {
-                const audioUrl = resolveMediaUrl(me?.voice);
+	const handlePlay = () => {
+		const audioUrl = resolveMediaUrl(me?.voice);
 
-                if (!audioUrl) return;
+		if (!audioUrl) return;
 
-                const audio = new Audio(audioUrl);
-                audio.play().catch((err) => {
-                        console.error("Ошибка воспроизведения:", err);
-                });
-        };
+		const audio = new Audio(audioUrl);
+		audio.play().catch((err) => {
+			console.error("Ошибка воспроизведения:", err);
+		});
+	};
 
-	const { getCityLabel} = useCityLabel()
+	const { getCityLabel } = useCityLabel();
 
 	return (
 		<div className="min-h-screen">
@@ -144,13 +145,13 @@ const AccountProfilePage = () => {
 								width={"100%"}
 								height={width ? width : "100%"}
 								radius="full"
-                                                                src={
-                                                                        me?.photos[0]?.url
-                                                                                ? resolveMediaUrl(me?.photos[0]?.url) ?? ""
-                                                                                : me?.sex === "male"
-                                                                                        ? "/men.jpg"
-                                                                                        : "/woman.jpg"
-                                                                }
+								src={
+									me?.photos[0]?.url
+										? (resolveMediaUrl(me?.photos[0]?.url) ?? "")
+										: me?.sex === "male"
+											? "/men.jpg"
+											: "/woman.jpg"
+								}
 								style={{ objectFit: "cover" }}
 							/>
 							{/* <div className="absolute rounded-full w-10 h-10 bg-primary cursor-pointer flex justify-center items-center right-[40px] bottom-[40px] border-[2px] border-white z-20">
@@ -159,6 +160,8 @@ const AccountProfilePage = () => {
 						</div>
 
 						<div className="bg-white dark:bg-foreground-100 p-[30px] rounded-[32px] flex flex-col gap-5">
+							{!me?.telegramId ? <TelegramLoginButton add /> : null}
+
 							<Link href={ROUTES.ACCOUNT.PROFILE_EDIT}>
 								<div className="flex gap-2.5 cursor-pointer group transition-all">
 									<FiEdit className="text-primary min-w-4" size={16} />
@@ -278,7 +281,7 @@ const AccountProfilePage = () => {
 										</button>
 									) : null}
 								</div> */}
-								<VoiceRecorder className='mt-3 sm:mt-0' />
+								<VoiceRecorder className="mt-3 sm:mt-0" />
 							</div>
 
 							<div className="text-[20px] font-semibold mt-3">
