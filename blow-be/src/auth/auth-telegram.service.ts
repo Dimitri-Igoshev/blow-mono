@@ -16,6 +16,7 @@ import {
   UserStatus,
   type UserDocument,
 } from 'src/user/entities/user.entity';
+import { stripNil } from 'src/common/utils/stripNil'
 
 @Injectable()
 export class AuthTelegramService {
@@ -154,7 +155,7 @@ export class AuthTelegramService {
     if (!user && (flow === 'registration' || flow === 'add')) {
       const didTxn = await this.tryWithTransaction(async (session) => {
         if (flow === 'registration') {
-          const data: any = {
+          const data: any = stripNil({
             telegramId: tgId,
             telegramUsername: (dto as any).username,
             telegramPhotoUrl: (dto as any).photo_url,
@@ -163,7 +164,7 @@ export class AuthTelegramService {
             role: UserRole.USER,
             status: UserStatus.ACTIVE,
             ...(dto as any).newUser,
-          };
+          });
           const doc = new this.userModel(data);
           await doc.save({ session });
           user = doc;

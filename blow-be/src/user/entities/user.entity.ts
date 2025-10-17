@@ -73,7 +73,14 @@ export interface PurchasedContacts {
 
 @Schema({ timestamps: true })
 export class User {
-  @Prop({ unique: true, sparse: true })
+  @Prop({
+    type: String,
+    unique: true,
+    sparse: true,
+    index: true,
+    // индекс сработает только если email — строка (исключаем null/undefined)
+    partialFilterExpression: { email: { $type: 'string' } },
+  })
   email?: string;
 
   @Prop()
