@@ -8,7 +8,7 @@ import { UserStatus } from 'src/user/entities/user.entity';
 import { BadRequestException } from '@nestjs/common';
 import { isPremium } from 'src/common/utils/checkIsActive';
 import { sanitizeContactsClient } from './sanitizeClient';
-// import { TelegramService } from 'src/telegram/telegram.service';
+import { TelegramService } from 'src/telegram/telegram.service';
 
 interface MessageNotificationParams {
   recipient: any;
@@ -24,7 +24,7 @@ export class ChatService {
     @InjectModel('Chat') private chatModel: Model<any>,
     @InjectModel('User') private userModel: Model<any>,
     private readonly mailerService: MailerService,
-    // private readonly tg: TelegramService,
+    private readonly tg: TelegramService,
   ) {}
 
   sendNewMessageNotification({
@@ -195,18 +195,18 @@ export class ChatService {
     });
 
     // Уведомления телеграм
-    // await this.tg.sendToUserId(
-    //   recipient?._id,
-    //   `[blow.ru] Новое сообщение от ${sender.firstName}: ${
-    //     isPremium(recipient) || recipient?.sex === 'female'
-    //       ? savedMessage?.text
-    //       : sanitizeContactsClient(savedMessage?.text).text
-    //   }`,
-    //   {
-    //     parse_mode: 'HTML',
-    //     disable_web_page_preview: true,
-    //   },
-    // );
+    await this.tg.sendToUserId(
+      recipient?._id,
+      `[blow.ru] Новое сообщение от ${sender.firstName}: ${
+        isPremium(recipient) || recipient?.sex === 'female'
+          ? savedMessage?.text
+          : sanitizeContactsClient(savedMessage?.text).text
+      }`,
+      {
+        parse_mode: 'HTML',
+        disable_web_page_preview: true,
+      },
+    );
 
     // 7) вернуть сохранённое сообщение (с корректными датами)
     return savedMessage;
