@@ -89,7 +89,6 @@ export default function TelegramLoginButton({
 						}
 					} catch (e) {
 						console.error("Telegram auth failed", e);
-						alert("Не удалось войти через Telegram");
 					}
 				}
 			);
