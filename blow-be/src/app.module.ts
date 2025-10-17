@@ -26,7 +26,7 @@ import { WithdrawalModule } from './withdrawal/withdrawal.module';
 import { SaleModule } from './sale/sale.module';
 import { YoomoneyModule } from './yoomoney/yoomoney.module';
 import { WalletModule } from './wallet/wallet.module';
-// import { TelegramModule } from './telegram/telegram.module'
+import { TelegramModule } from './telegram/telegram.module'
 
 @Module({
   imports: [
@@ -106,7 +106,7 @@ import { WalletModule } from './wallet/wallet.module';
     SaleModule,
     YoomoneyModule,
     WalletModule,
-    // TelegramModule,
+    TelegramModule,
   ],
 })
 export class AppModule {}
