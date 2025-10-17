@@ -37,7 +37,7 @@ export class AuthTelegramService {
   }
 
   private verifySignature(dto: TelegramAuthDto) {
-    const {type, newUser, ...rest} = dto
+    const { type, newUser, ...rest } = dto;
     const dataCheckString = this.buildDataCheckString(rest);
     const secretKey = crypto
       .createHash('sha256')
@@ -58,15 +58,15 @@ export class AuthTelegramService {
   async authenticate(dto: TelegramAuthDto, attachToUserId?: string) {
     // 1) сигнатура
     const ok = this.verifySignature(dto);
-    console.log(0)
+    console.log(0);
     if (!ok) throw new UnauthorizedException('Invalid Telegram signature');
 
     // 2) время
-    console.log(1)
+    console.log(1);
     if (!this.verifyAuthDate(dto.auth_date)) {
       throw new UnauthorizedException('Telegram auth data expired');
     }
-    console.log(2)
+    console.log(2);
 
     // 3) find or create by telegramId
     const tgId = String(dto.id);
@@ -122,19 +122,33 @@ export class AuthTelegramService {
       };
 
       if (dto.type === 'registration') {
-        data = {...data, ...dto.newUser}
+        data = { ...data, ...dto.newUser };
+        user = new this.userModel(data);
+        await user.save();
       }
       // создаём без email
-      user = new this.userModel(data);
-      await user.save();
+
+      if (dto.type === 'add') {
+        user = await this.userModel
+          .findOneAndUpdate(
+            { _id: dto.newUser._id },
+            {
+              telegramId: tgId,
+              telegramUsername: dto.username,
+              telegramPhotoUrl: dto.photo_url,
+            },
+            { new: true },
+          )
+          .exec();
+      }
     }
 
     const payload = {
-      sub: user._id.toString(),
-      role: user.role,
-      status: user.status,
+      sub: user?._id.toString(),
+      role: user?.role,
+      status: user?.status,
     };
     const accessToken = await this.jwtService.signAsync(payload);
-    return { accessToken, isNew, userId: user._id };
+    return { accessToken, isNew, userId: user?._id };
   }
 }

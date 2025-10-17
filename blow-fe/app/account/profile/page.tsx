@@ -160,7 +160,7 @@ const AccountProfilePage = () => {
 						</div>
 
 						<div className="bg-white dark:bg-foreground-100 p-[30px] rounded-[32px] flex flex-col gap-5">
-							{!me?.telegramId ? <TelegramLoginButton add /> : null}
+							{!me?.telegramId ? <TelegramLoginButton add newUser={me}/> : null}
 
 							<Link href={ROUTES.ACCOUNT.PROFILE_EDIT}>
 								<div className="flex gap-2.5 cursor-pointer group transition-all">

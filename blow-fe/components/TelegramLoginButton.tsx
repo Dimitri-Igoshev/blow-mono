@@ -79,6 +79,10 @@ export default function TelegramLoginButton({
             data.type = "registration";
             data.newUser = newUser;
           }
+					if (add) {
+						data.type = "add"
+						data.newUser = newUser;
+					}
 					try {
 						const res = await authTelegram(data).unwrap();
 						const token = (res as any).access_token ?? (res as any).accessToken;
@@ -117,7 +121,7 @@ export default function TelegramLoginButton({
 				onOpenChange={onOpenChange}
 				onClose={onOpenChange}
 				title="Ошибка"
-				text="Вы не зарегистрированы на сайте, либо ваш телеграм не добавлен в вашем профиле"
+				text="Вы не зарегистрированы на сайте, либо телеграм не добавлен в вашем профиле"
 			/>
 		</>
 	);
