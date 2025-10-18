@@ -96,11 +96,11 @@ export default function TelegramLoginButton({
 							})
 							.catch((err) => {
 								console.log(err)
-								if (err?.error === "Conflict") {
-									setText(
-										"Вы уже зарегистрированы на сайте, этот телеграм уже добавлен к другому профилю"
-									);
-								}
+								// if (err?.error === "Conflict") {
+								// 	setText(
+								// 		"Вы уже зарегистрированы на сайте, этот телеграм уже добавлен к другому профилю"
+								// 	);
+								// }
 							});
 
 						const token = (res as any).access_token ?? (res as any).accessToken;
