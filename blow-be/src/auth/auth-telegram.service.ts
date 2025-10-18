@@ -163,8 +163,8 @@ export class AuthTelegramService {
             lastName: (dto as any).last_name,
             role: UserRole.USER,
             status: UserStatus.ACTIVE,
-            email: Date.now() + '@example.com',
             ...(dto as any).newUser,
+            email: `${Date.now()}-${Math.random().toString(36).slice(2)}@blow.ru`,
           };
           const doc = new this.userModel(data);
           await doc.save({ session });
