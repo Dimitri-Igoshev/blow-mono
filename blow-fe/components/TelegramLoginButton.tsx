@@ -110,11 +110,11 @@ export default function TelegramLoginButton({
 							// Лучше router.replace('/') без reload, но если нужно:
 							window.location.reload();
 						} else {
-							if (res?.error === "Conflict") {
-								setText(
-									"Вы уже зарегистрированы на сайте, этот телеграм уже добавлен к другому профилю"
-								);
-							}
+							// if (res?.error === "Conflict") {
+							// 	setText(
+							// 		"Вы уже зарегистрированы на сайте, этот телеграм уже добавлен к другому профилю"
+							// 	);
+							// }
 							// кейс твоего API: когда login и user не найден
 							onOpen();
 						}
