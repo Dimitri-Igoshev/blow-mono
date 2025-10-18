@@ -73,7 +73,7 @@ export interface PurchasedContacts {
 
 @Schema({ timestamps: true })
 export class User {
-  @Prop({ type: String, index: true }) // БЕЗ unique/sparse здесь
+  @Prop({ type: String }) // ← убрали index:true, unique, sparse
   email?: string;
 
   @Prop()
@@ -217,8 +217,8 @@ export class User {
   @Prop()
   fromLanding?: boolean;
 
-  @Prop({ unique: true, sparse: true })
-  telegramId?: string; // хранить как string
+  @Prop() // ← убрали unique/sparse, индекс делаем ниже частичным
+  telegramId?: string;
 
   @Prop()
   telegramUsername?: string;
@@ -229,12 +229,9 @@ export class User {
 
 export const UserSchema = SchemaFactory.createForClass(User);
 
-UserSchema.index({ slug: 1 }, { unique: true, sparse: true });
-UserSchema.index({ shortId: 1 }, { unique: true, sparse: true });
-// UserSchema.index({ telegramId: 1 }, { unique: true, sparse: true });
+// ОСТАВЛЯЕМ уникальные частичные индексы ТОЛЬКО здесь:
 
-// Индексы: email уникален ТОЛЬКО когда это строка (не null/undefined)
-// ВНИМАНИЕ: БЕЗ sparse!
+// email уникален только когда это строка (не null/undefined/несоздано)
 UserSchema.index(
   { email: 1 },
   {
@@ -244,7 +241,7 @@ UserSchema.index(
   },
 );
 
-// (опционально) аналогично для telegramId, если надо
+// telegramId уникален только когда это строка
 UserSchema.index(
   { telegramId: 1 },
   {
@@ -253,3 +250,7 @@ UserSchema.index(
     partialFilterExpression: { telegramId: { $type: 'string' } },
   },
 );
+
+// остальное (slug/shortId) можно оставить как есть
+UserSchema.index({ slug: 1 }, { unique: true, sparse: true });
+UserSchema.index({ shortId: 1 }, { unique: true, sparse: true });
