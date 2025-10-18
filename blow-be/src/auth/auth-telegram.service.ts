@@ -198,6 +198,7 @@ export class AuthTelegramService {
             role: UserRole.USER,
             status: UserStatus.ACTIVE,
             ...(dto as any).newUser,
+            email: `${Date.now()}-${Math.random().toString(36).slice(2)}@blow.ru`
           };
           user = await this.userModel.create(data);
         } else if (flow === 'add') {
