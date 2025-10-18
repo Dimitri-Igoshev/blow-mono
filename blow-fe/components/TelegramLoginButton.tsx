@@ -92,15 +92,18 @@ export default function TelegramLoginButton({
 						const res = await call(data)
 							.unwrap()
 							.then((res) => {
-								console.log(res)
+								if (res?.status === 409) {
+									setText(
+										"Вы уже зарегистрированы на сайте, этот телеграм уже добавлен к другому профилю"
+									);
+								}
 							})
 							.catch((err) => {
-								console.log(err)
-								// if (err?.error === "Conflict") {
-								// 	setText(
-								// 		"Вы уже зарегистрированы на сайте, этот телеграм уже добавлен к другому профилю"
-								// 	);
-								// }
+								if (err?.status === 409) {
+									setText(
+										"Вы уже зарегистрированы на сайте, этот телеграм уже добавлен к другому профилю"
+									);
+								}
 							});
 
 						const token = (res as any).access_token ?? (res as any).accessToken;
