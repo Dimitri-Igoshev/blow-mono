@@ -155,7 +155,7 @@ export class AuthTelegramService {
     if (!user && (flow === 'registration' || flow === 'add')) {
       const didTxn = await this.tryWithTransaction(async (session) => {
         if (flow === 'registration') {
-          const data: any = stripNil({
+          const data: any = {
             telegramId: tgId,
             telegramUsername: (dto as any).username,
             telegramPhotoUrl: (dto as any).photo_url,
@@ -165,7 +165,7 @@ export class AuthTelegramService {
             status: UserStatus.ACTIVE,
             email: Date.now() + '@example.com',
             ...(dto as any).newUser,
-          });
+          };
           const doc = new this.userModel(data);
           await doc.save({ session });
           user = doc;

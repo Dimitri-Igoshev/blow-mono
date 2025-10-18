@@ -311,4 +311,4 @@ db.users.createIndex({ email: 1 }, { unique: true, sparse: true, partialFilterEx
 // 4) проверить
 db.users.getIndexes();
 
-db.auth("root", "root_pass")
+db.auth("root", "example")
