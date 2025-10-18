@@ -33,7 +33,7 @@ export class ChatService {
     messageText,
     chatLink,
   }: MessageNotificationParams) {
-    if (!recipient?.email) return;
+    if (!recipient?.email) return
     const formattedDate = format(new Date(Date.now()), "dd MM yyyy 'в' HH:mm");
 
     return this.mailerService.sendMail({
@@ -196,17 +196,14 @@ export class ChatService {
     });
 
     // Уведомления телеграм
-
-    const escapeHtml = (s: string) =>
-      s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-
-    const link = 'https://blow.ru/messages'; // куда вести кликом
-    const text = `У вас новое сообщение на <a href="${link}">Blow.Ru</a> от пользователя ${escapeHtml(sender.firstName)}.`;
-
-    await this.tg.sendToUserId(recipient._id, text, {
-      parse_mode: 'HTML',
-      disable_web_page_preview: true,
-    });
+    await this.tg.sendToUserId(
+      recipient?._id,
+      `Новое сообщение от пользователя ${sender.firstName}`,
+      {
+        parse_mode: 'HTML',
+        disable_web_page_preview: true,
+      },
+    );
 
     // 7) вернуть сохранённое сообщение (с корректными датами)
     return savedMessage;
