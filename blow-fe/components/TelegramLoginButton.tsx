@@ -89,7 +89,19 @@ export default function TelegramLoginButton({
 					try {
 						// Выбираем эндпоинт: add -> link (с токеном), иначе login (без токена)
 						const call = add ? telegramAuthLink : telegramAuthLogin;
-						const res = await call(data).unwrap();
+						const res = await call(data)
+							.unwrap()
+							.then((res) => {
+								console.log(res)
+							})
+							.catch((err) => {
+								console.log(err)
+								if (err?.error === "Conflict") {
+									setText(
+										"Вы уже зарегистрированы на сайте, этот телеграм уже добавлен к другому профилю"
+									);
+								}
+							});
 
 						const token = (res as any).access_token ?? (res as any).accessToken;
 						if (token) {
@@ -98,7 +110,7 @@ export default function TelegramLoginButton({
 							// Лучше router.replace('/') без reload, но если нужно:
 							window.location.reload();
 						} else {
-							if (res?.statusCode === 409) {
+							if (res?.error === "Conflict") {
 								setText(
 									"Вы уже зарегистрированы на сайте, этот телеграм уже добавлен к другому профилю"
 								);
