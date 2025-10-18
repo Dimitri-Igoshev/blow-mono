@@ -89,7 +89,7 @@ export default function TelegramLoginButton({
 					try {
 						// Выбираем эндпоинт: add -> link (с токеном), иначе login (без токена)
 						const call = add ? telegramAuthLink : telegramAuthLogin;
-						const response = await call(data)
+						const res = await call(data)
 							.unwrap()
 							.then((res) => {
 								if (res?.status === 409) {
@@ -106,7 +106,7 @@ export default function TelegramLoginButton({
 								}
 							});
 
-						const token = (response as any).accessToken ?? (response as any).accessToken;
+						const token = (res as any).access_token ?? (res as any).accessToken;
 						if (token) {
 							localStorage.setItem("access-token", token);
 							dispatch(setToken(token));
